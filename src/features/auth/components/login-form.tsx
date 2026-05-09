@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../../shared/components/ui/card';
+import { Card, CardContent, CardHeader } from '../../../shared/components/ui/card';
 import { Button } from '../../../shared/components/ui/button';
 import { Input } from '../../../shared/components/ui/input';
 import { FormField } from '../../../shared/components/forms/form-field';
@@ -40,14 +40,14 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto border-0 shadow-none md:border md:shadow-sm">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center">
-          Welcome Back
-        </CardTitle>
-        <CardDescription className="text-center">
+        <h1 className="text-2xl font-bold tracking-tight">
+          Welcome back
+        </h1>
+        <p className="text-sm text-muted-foreground">
           Enter your credentials to access your account
-        </CardDescription>
+        </p>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -55,6 +55,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
             <Input
               type="email"
               placeholder="name@example.com"
+              className="h-11 rounded-lg"
               {...register('email')}
             />
           </FormField>
@@ -63,13 +64,14 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
             <Input
               type="password"
               placeholder="Enter your password"
+              className="h-11 rounded-lg"
               {...register('password')}
             />
           </FormField>
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full h-11 rounded-lg"
             disabled={loginMutation.isPending}
           >
             {loginMutation.isPending ? 'Signing in...' : 'Sign In'}
@@ -94,7 +96,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           </Link>
         </div>
 
-        <div className="mt-6 p-4 bg-muted rounded-lg">
+        <div className="mt-6 p-4 bg-muted/50 border border-dashed rounded-lg">
           <p className="text-xs text-muted-foreground text-center mb-2">
             Demo Credentials:
           </p>
