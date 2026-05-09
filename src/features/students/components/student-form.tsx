@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -18,10 +19,10 @@ const studentSchema = z.object({
   classId: z.string().min(1, 'Please select a class'),
   dateOfBirth: z.string().min(1, 'Please enter date of birth'),
   gender: z.enum(['male', 'female', 'other']),
-  phone: z.string().optional(),
+  phone: z.string().regex(/^[\d\s\-\+\(\)]*$/, 'Invalid phone format').optional(),
   address: z.string().optional(),
   parentName: z.string().optional(),
-  parentPhone: z.string().optional(),
+  parentPhone: z.string().regex(/^[\d\s\-\+\(\)]*$/, 'Invalid phone format').optional(),
   admissionDate: z.string().min(1, 'Please enter admission date'),
 });
 
@@ -64,17 +65,13 @@ export function StudentForm({ student, onSuccess }: StudentFormProps) {
   });
 
   const onSubmit = async (data: StudentFormData) => {
-    try {
-      if (isEditing) {
-        await updateStudent.mutateAsync({ id: student.id, data });
-      } else {
-        await createStudent.mutateAsync(data);
-      }
-      navigate(ROUTES.STUDENTS);
-      onSuccess?.();
-    } catch (error) {
-      console.error('Failed to save student:', error);
+    if (isEditing) {
+      await updateStudent.mutateAsync({ id: student.id, data });
+    } else {
+      await createStudent.mutateAsync(data);
     }
+    navigate(ROUTES.STUDENTS);
+    onSuccess?.();
   };
 
   return (
@@ -152,9 +149,9 @@ export function StudentForm({ student, onSuccess }: StudentFormProps) {
           </FormField>
 
           <div className="flex gap-4">
-            <Button type="submit" disabled={createStudent.isPending || updateStudent.isPending}>
+            <Button type="submit" className="gap-2" disabled={createStudent.isPending || updateStudent.isPending}>
               {createStudent.isPending || updateStudent.isPending
-                ? 'Saving...'
+                ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</>
                 : isEditing
                 ? 'Update Student'
                 : 'Add Student'}

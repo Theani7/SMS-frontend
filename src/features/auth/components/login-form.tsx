@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -11,7 +12,7 @@ import { ROUTES } from '../../../shared/lib/constants';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(1, 'Password is required'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -71,9 +72,10 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
 
           <Button
             type="submit"
-            className="w-full h-11 rounded-lg"
+            className="w-full h-11 rounded-lg gap-2"
             disabled={loginMutation.isPending}
           >
+            {loginMutation.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
             {loginMutation.isPending ? 'Signing in...' : 'Sign In'}
           </Button>
 

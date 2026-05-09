@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -16,7 +17,7 @@ const teacherSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email'),
   subject: z.string().min(1, 'Please select a subject'),
-  phone: z.string().optional(),
+  phone: z.string().regex(/^[\d\s\-\+\(\)]*$/, 'Invalid phone format').optional(),
   address: z.string().optional(),
   dateOfBirth: z.string().min(1, 'Please enter date of birth'),
   gender: z.enum(['male', 'female', 'other']),
@@ -60,17 +61,13 @@ export function TeacherForm({ teacher, onSuccess }: TeacherFormProps) {
   });
 
   const onSubmit = async (data: TeacherFormData) => {
-    try {
-      if (isEditing) {
-        await updateTeacher.mutateAsync({ id: teacher.id, data });
-      } else {
-        await createTeacher.mutateAsync(data);
-      }
-      navigate(ROUTES.TEACHERS);
-      onSuccess?.();
-    } catch (error) {
-      console.error('Failed to save teacher:', error);
+    if (isEditing) {
+      await updateTeacher.mutateAsync({ id: teacher.id, data });
+    } else {
+      await createTeacher.mutateAsync(data);
     }
+    navigate(ROUTES.TEACHERS);
+    onSuccess?.();
   };
 
   const subjects = ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English', 'History', 'Geography', 'Computer Science', 'Art', 'Music'];
@@ -139,9 +136,9 @@ export function TeacherForm({ teacher, onSuccess }: TeacherFormProps) {
           </FormField>
 
           <div className="flex gap-4">
-            <Button type="submit" disabled={createTeacher.isPending || updateTeacher.isPending}>
+            <Button type="submit" className="gap-2" disabled={createTeacher.isPending || updateTeacher.isPending}>
               {createTeacher.isPending || updateTeacher.isPending
-                ? 'Saving...'
+                ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</>
                 : isEditing
                 ? 'Update Teacher'
                 : 'Add Teacher'}

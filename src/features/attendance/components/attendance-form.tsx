@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -24,7 +25,7 @@ type AttendanceFormData = z.infer<typeof attendanceSchema>;
 export function AttendanceForm() {
   const [, setSelectedClass] = useState<string>('');
   const markAttendance = useMarkAttendance();
-  const { data: classes } = useClassOptions();
+  const { data: classes, isLoading: isLoadingClasses } = useClassOptions();
   const {
     register,
     handleSubmit,
@@ -71,16 +72,24 @@ export function AttendanceForm() {
                   setValue('studentId', '');
                 }}
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select class" />
-                </SelectTrigger>
-                <SelectContent>
-                  {classes?.map((cls) => (
-                    <SelectItem key={cls.id} value={cls.id}>
-                      {cls.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
+                {isLoadingClasses ? (
+                  <SelectTrigger>
+                    <SelectValue placeholder="Loading classes..." />
+                  </SelectTrigger>
+                ) : (
+                  <>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select class" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {classes?.map((cls) => (
+                        <SelectItem key={cls.id} value={cls.id}>
+                          {cls.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </>
+                )}
               </Select>
             </FormField>
 
@@ -127,9 +136,10 @@ export function AttendanceForm() {
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full gap-2"
             disabled={markAttendance.isPending}
           >
+            {markAttendance.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
             {markAttendance.isPending ? 'Marking...' : 'Mark Attendance'}
           </Button>
         </form>

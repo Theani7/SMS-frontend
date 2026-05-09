@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -65,17 +66,13 @@ export function ClassForm({ cls, onSuccess }: ClassFormProps) {
   });
 
   const onSubmit = async (data: ClassFormData) => {
-    try {
-      if (isEditing) {
-        await updateClass.mutateAsync({ id: cls.id, data });
-      } else {
-        await createClass.mutateAsync(data);
-      }
-      navigate(ROUTES.CLASSES);
-      onSuccess?.();
-    } catch (error) {
-      console.error('Failed to save class:', error);
+    if (isEditing) {
+      await updateClass.mutateAsync({ id: cls.id, data });
+    } else {
+      await createClass.mutateAsync(data);
     }
+    navigate(ROUTES.CLASSES);
+    onSuccess?.();
   };
 
   return (
@@ -132,9 +129,9 @@ export function ClassForm({ cls, onSuccess }: ClassFormProps) {
           </FormField>
 
           <div className="flex gap-4">
-            <Button type="submit" disabled={createClass.isPending || updateClass.isPending}>
+            <Button type="submit" className="gap-2" disabled={createClass.isPending || updateClass.isPending}>
               {createClass.isPending || updateClass.isPending
-                ? 'Saving...'
+                ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</>
                 : isEditing
                 ? 'Update Class'
                 : 'Add Class'}

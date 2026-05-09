@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -64,17 +65,13 @@ export function FeeForm({ fee, onSuccess }: FeeFormProps) {
   });
 
   const onSubmit = async (data: FeeFormData) => {
-    try {
-      if (isEditing) {
-        await updateFee.mutateAsync({ id: fee.id, data });
-      } else {
-        await createFee.mutateAsync(data);
-      }
-      navigate(ROUTES.FEES);
-      onSuccess?.();
-    } catch (error) {
-      console.error('Failed to save fee:', error);
+    if (isEditing) {
+      await updateFee.mutateAsync({ id: fee.id, data });
+    } else {
+      await createFee.mutateAsync(data);
     }
+    navigate(ROUTES.FEES);
+    onSuccess?.();
   };
 
   return (
@@ -131,9 +128,9 @@ export function FeeForm({ fee, onSuccess }: FeeFormProps) {
           </FormField>
 
           <div className="flex gap-4">
-            <Button type="submit" disabled={createFee.isPending || updateFee.isPending}>
+            <Button type="submit" className="gap-2" disabled={createFee.isPending || updateFee.isPending}>
               {createFee.isPending || updateFee.isPending
-                ? 'Saving...'
+                ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</>
                 : isEditing
                 ? 'Update Fee'
                 : 'Add Fee'}
