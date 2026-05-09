@@ -11,7 +11,7 @@ export function AdminDashboard() {
     return <div className="animate-pulse space-y-4">
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-32 bg-muted rounded-xl" />
+          <div key={i} className="h-28 bg-muted rounded-xl" />
         ))}
       </div>
     </div>;
@@ -56,7 +56,7 @@ export function AdminDashboard() {
       <div className="grid gap-4 md:grid-cols-2">
         <Card className="rounded-xl">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl font-bold tracking-tight">
+            <CardTitle className="flex items-center gap-2 text-lg font-semibold">
               <DollarSign className="h-5 w-5" />
               Pending Fees
             </CardTitle>
@@ -69,7 +69,7 @@ export function AdminDashboard() {
 
         <Card className="rounded-xl">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl font-bold tracking-tight">
+            <CardTitle className="flex items-center gap-2 text-lg font-semibold">
               <Activity className="h-5 w-5" />
               Recent Activity
             </CardTitle>
