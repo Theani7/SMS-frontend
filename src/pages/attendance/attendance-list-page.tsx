@@ -1,13 +1,13 @@
 import { PageContainer } from '../../shared/components/layout/page-container';
-import { EmptyState } from '../../shared/components/data-display/empty-state';
+import { AttendanceList } from '../../features/attendance/components/attendance-list';
 
 export function AttendancePage() {
   return (
-    <PageContainer title="Attendance" description="View attendance records">
-      <EmptyState
-        title="No attendance records"
-        description="Attendance tracking coming soon"
-      />
+    <PageContainer
+      title="Attendance"
+      description="View and track student attendance records"
+    >
+      <AttendanceList />
     </PageContainer>
   );
 }

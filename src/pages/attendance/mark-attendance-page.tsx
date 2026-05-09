@@ -1,13 +1,15 @@
 import { PageContainer } from '../../shared/components/layout/page-container';
-import { EmptyState } from '../../shared/components/data-display/empty-state';
+import { AttendanceForm } from '../../features/attendance/components/attendance-form';
 
 export function AttendanceMarkPage() {
   return (
-    <PageContainer title="Mark Attendance" description="Record daily attendance">
-      <EmptyState
-        title="Attendance marking"
-        description="Mark attendance form coming soon"
-      />
+    <PageContainer
+      title="Mark Attendance"
+      description="Record daily attendance for students"
+    >
+      <div className="max-w-xl">
+        <AttendanceForm />
+      </div>
     </PageContainer>
   );
 }
