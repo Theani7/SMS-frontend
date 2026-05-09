@@ -7,9 +7,9 @@ export function LoginPage() {
       {/* Left Panel - Branding (40%, hidden on mobile) */}
       <div className="hidden lg:flex lg:w-2/5 bg-gradient-to-br from-indigo-600 via-violet-600 to-indigo-800 relative overflow-hidden">
         {/* Decorative blobs */}
-        <div className="absolute top-0 left-0 w-64 h-64 bg-indigo-500/30 rounded-full blur-3xl gradient-blob" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-violet-500/30 rounded-full blur-3xl gradient-blob" />
-        <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-purple-500/20 rounded-full blur-3xl gradient-blob" />
+        <div className="absolute top-0 left-0 w-64 h-64 bg-indigo-500/30 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-violet-500/30 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-purple-500/20 rounded-full blur-3xl" />
 
         <div className="relative z-10 flex flex-col justify-center px-12 py-16 w-full">
           {/* Logo area */}
