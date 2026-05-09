@@ -9,9 +9,9 @@ export function AdminDashboard() {
 
   if (isLoading) {
     return <div className="animate-pulse space-y-4">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-32 bg-muted rounded-lg" />
+          <div key={i} className="h-32 bg-muted rounded-xl" />
         ))}
       </div>
     </div>;
@@ -19,7 +19,12 @@ export function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight">Good morning, Admin</h1>
+        <p className="text-sm text-muted-foreground">Here&apos;s what&apos;s happening at your school today.</p>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Total Students"
           value={stats?.totalStudents || 0}
@@ -40,7 +45,7 @@ export function AdminDashboard() {
           description="Across all grades"
         />
         <StatCard
-          title="Today's Attendance"
+          title="Today&apos;s Attendance"
           value={`${stats?.todayAttendance || 0}%`}
           icon={ClipboardCheck}
           description="Present rate"
@@ -49,9 +54,9 @@ export function AdminDashboard() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Card>
+        <Card className="rounded-xl">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-2xl font-bold tracking-tight">
               <DollarSign className="h-5 w-5" />
               Pending Fees
             </CardTitle>
@@ -62,9 +67,9 @@ export function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="rounded-xl">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-2xl font-bold tracking-tight">
               <Activity className="h-5 w-5" />
               Recent Activity
             </CardTitle>
