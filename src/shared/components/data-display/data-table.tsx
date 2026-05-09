@@ -45,19 +45,19 @@ export function DataTable<TData>({ columns, data, onRowClick }: DataTableProps<T
   });
 
   return (
-    <div className="relative rounded-xl border shadow-sm overflow-hidden">
+    <div className="relative rounded-xl border border-slate-100 bg-white shadow-soft overflow-hidden">
       {/* Gradient fade indicators on mobile to hint at horizontal scroll */}
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background to-transparent lg:hidden" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent lg:hidden" />
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="border-b bg-muted/50">
+            <TableRow key={headerGroup.id} className="border-b border-slate-100 bg-gradient-to-r from-slate-50 to-slate-100/50">
               {headerGroup.headers.map((header) => {
                 const isSorted = header.column.getIsSorted();
                 return (
                   <TableHead
                     key={header.id}
-                    className="text-xs font-medium text-muted-foreground uppercase tracking-wider"
+                    className="text-xs font-semibold text-slate-500 uppercase tracking-wider"
                     aria-sort={
                       isSorted === 'asc'
                         ? 'ascending'
@@ -98,7 +98,7 @@ export function DataTable<TData>({ columns, data, onRowClick }: DataTableProps<T
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                className="border-b last:border-0 hover:bg-muted/30 transition-colors cursor-pointer"
+                className="border-b border-slate-50 last:border-0 hover:bg-indigo-50/30 transition-colors cursor-pointer"
                 tabIndex={0}
                 onClick={() => onRowClick?.((row.original as { id: string }).id)}
                 onKeyDown={(e) => {
