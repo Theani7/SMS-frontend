@@ -1,47 +1,33 @@
+import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { Card, CardContent, CardHeader } from '../../../shared/components/ui/card';
 import { Button } from '../../../shared/components/ui/button';
 import { Input } from '../../../shared/components/ui/input';
-import { FormField } from '../../../shared/components/forms/form-field';
 import { useLogin } from '../hooks/use-login';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../shared/lib/constants';
-
-const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
 
 interface LoginFormProps {
   onSuccess?: () => void;
 }
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const loginMutation = useLogin();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  });
 
-  const onSubmit = async (data: LoginFormData) => {
-    await loginMutation.mutateAsync(data);
-    onSuccess?.();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await loginMutation.mutateAsync({ email, password });
+      onSuccess?.();
+    } catch {
+      // Error is handled by mutation state
+    }
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto border-0 shadow-none md:border md:shadow-sm">
+    <Card className="w-full max-w-md mx-auto bg-gradient-to-r from-indigo-50 to-violet-50 border-indigo-100 shadow-sm">
       <CardHeader className="space-y-1">
         <h1 className="text-2xl font-bold tracking-tight">
           Welcome back
@@ -51,28 +37,44 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         </p>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <FormField label="Email" error={errors.email?.message}>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <label
+              htmlFor="email"
+              className="text-sm font-semibold text-slate-700"
+            >
+              Email
+            </label>
             <Input
+              id="email"
               type="email"
               placeholder="name@example.com"
-              className="h-11 rounded-lg"
-              {...register('email')}
+              className="h-12 rounded-xl"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-          </FormField>
+          </div>
 
-          <FormField label="Password" error={errors.password?.message}>
+          <div className="space-y-2">
+            <label
+              htmlFor="password"
+              className="text-sm font-semibold text-slate-700"
+            >
+              Password
+            </label>
             <Input
+              id="password"
               type="password"
               placeholder="Enter your password"
-              className="h-11 rounded-lg"
-              {...register('password')}
+              className="h-12 rounded-xl"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-          </FormField>
+          </div>
 
           <Button
             type="submit"
-            className="w-full h-11 rounded-lg gap-2"
+            className="w-full h-12 rounded-xl gap-2"
             disabled={loginMutation.isPending}
           >
             {loginMutation.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
@@ -98,17 +100,19 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           </Link>
         </div>
 
-        <div className="mt-6 p-4 bg-muted/50 border border-dashed rounded-lg">
-          <p className="text-xs text-muted-foreground text-center mb-2">
-            Demo Credentials:
-          </p>
-          <div className="text-xs space-y-1">
-            <p><strong>Admin:</strong> admin@school.com / admin123</p>
-            <p><strong>Teacher:</strong> teacher@school.com / teacher123</p>
-            <p><strong>Parent:</strong> parent@school.com / parent123</p>
-            <p><strong>Student:</strong> student@school.com / student123</p>
-          </div>
-        </div>
+        <Card className="mt-6 bg-white/60 border-indigo-100">
+          <CardContent className="pt-4">
+            <p className="text-xs text-muted-foreground text-center mb-3 font-medium">
+              Demo Credentials
+            </p>
+            <div className="text-xs space-y-1.5">
+              <p><strong className="text-slate-700">Admin:</strong> <span className="text-muted-foreground">admin@school.com / admin123</span></p>
+              <p><strong className="text-slate-700">Teacher:</strong> <span className="text-muted-foreground">teacher@school.com / teacher123</span></p>
+              <p><strong className="text-slate-700">Parent:</strong> <span className="text-muted-foreground">parent@school.com / parent123</span></p>
+              <p><strong className="text-slate-700">Student:</strong> <span className="text-muted-foreground">student@school.com / student123</span></p>
+            </div>
+          </CardContent>
+        </Card>
       </CardContent>
     </Card>
   );
