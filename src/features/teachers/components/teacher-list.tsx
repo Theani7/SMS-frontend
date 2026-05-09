@@ -40,13 +40,13 @@ export function TeacherList({ onAddNew }: TeacherListProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
-        <div className="relative flex-1 max-w-sm">
+        <div className="relative flex-1 max-w-sm h-11 rounded-xl border border-slate-200 bg-white">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search teachers..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 pr-10"
+            className="h-11 pl-10 pr-10 border-0 bg-transparent focus-visible:ring-0"
           />
           {search && (
             <Button
@@ -61,7 +61,7 @@ export function TeacherList({ onAddNew }: TeacherListProps) {
           )}
         </div>
         {onAddNew && (
-          <Button onClick={onAddNew} className="gap-2">
+          <Button onClick={onAddNew} className="h-11 px-5 rounded-xl shadow-button btn-lift gap-2">
             <Plus className="h-4 w-4" />
             Add Teacher
           </Button>

@@ -31,11 +31,11 @@ export function AttendanceFilters({ onFilter }: AttendanceFiltersProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-wrap gap-4 items-end">
       <FormField label="Search" className="flex-1 min-w-[200px]">
-        <div className="relative">
+        <div className="relative h-11 rounded-xl border border-slate-200 bg-white">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search student name..."
-            className="pl-10"
+            className="h-11 pl-10 border-0 bg-transparent focus-visible:ring-0"
             {...register('search')}
           />
         </div>
