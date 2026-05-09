@@ -54,10 +54,12 @@ export function AdminDashboard() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Card className="rounded-xl">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg font-semibold">
-              <DollarSign className="h-5 w-5" />
+        <Card className="card-hover rounded-xl">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="flex items-center gap-2 text-lg font-bold">
+              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-100 to-violet-100 flex items-center justify-center">
+                <DollarSign className="h-5 w-5 text-indigo-600" />
+              </div>
               Pending Fees
             </CardTitle>
           </CardHeader>
@@ -67,10 +69,12 @@ export function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="rounded-xl">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg font-semibold">
-              <Activity className="h-5 w-5" />
+        <Card className="card-hover rounded-xl">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="flex items-center gap-2 text-lg font-bold">
+              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-100 to-violet-100 flex items-center justify-center">
+                <Activity className="h-5 w-5 text-indigo-600" />
+              </div>
               Recent Activity
             </CardTitle>
           </CardHeader>
