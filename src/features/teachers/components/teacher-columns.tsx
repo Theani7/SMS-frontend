@@ -1,6 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
 import type { Teacher } from '../types/teacher';
-import { Badge } from '../../../shared/components/ui/badge';
 import { formatDate } from '../../../shared/lib/utils';
 import { MoreHorizontal } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/button';
@@ -46,12 +45,12 @@ export const teacherColumns = ({ onDelete }: TeacherColumnsProps): ColumnDef<Tea
     header: 'Status',
     cell: ({ row }) => {
       const status = row.original.status;
-      const variants: Record<string, 'default' | 'secondary' | 'destructive'> = {
-        active: 'default',
-        inactive: 'secondary',
-        'on-leave': 'secondary',
+      const colorMap: Record<string, string> = {
+        active: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+        inactive: 'bg-slate-100 text-slate-600 border-slate-200',
+        'on-leave': 'bg-amber-100 text-amber-700 border-amber-200',
       };
-      return <Badge variant={variants[status]}>{status}</Badge>;
+      return <span className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent ${colorMap[status] || 'bg-gray-100 text-gray-700 border-gray-200'}`}>{status}</span>;
     },
   },
   {

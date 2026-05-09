@@ -1,6 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
 import type { Fee } from '../types/fee';
-import { Badge } from '../../../shared/components/ui/badge';
 import { formatDate, formatCurrency } from '../../../shared/lib/utils';
 import { MoreHorizontal } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/button';
@@ -43,13 +42,13 @@ export const feeColumns = ({ onDelete }: FeeColumnsProps): ColumnDef<Fee>[] => [
     header: 'Status',
     cell: ({ row }) => {
       const status = row.original.status;
-      const variants: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
-        pending: 'secondary',
-        paid: 'default',
-        overdue: 'destructive',
-        waived: 'outline',
+      const colorMap: Record<string, string> = {
+        paid: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+        pending: 'bg-amber-100 text-amber-700 border-amber-200',
+        overdue: 'bg-red-100 text-red-700 border-red-200',
+        waived: 'bg-blue-100 text-blue-700 border-blue-200',
       };
-      return <Badge variant={variants[status]}>{status}</Badge>;
+      return <span className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent ${colorMap[status] || 'bg-gray-100 text-gray-700 border-gray-200'}`}>{status}</span>;
     },
   },
   {
