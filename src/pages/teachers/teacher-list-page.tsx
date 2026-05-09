@@ -1,13 +1,17 @@
 import { PageContainer } from '../../shared/components/layout/page-container';
-import { EmptyState } from '../../shared/components/data-display/empty-state';
+import { TeacherList } from '../../features/teachers/components/teacher-list';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../shared/lib/constants';
 
 export function TeachersPage() {
+  const navigate = useNavigate();
+
   return (
-    <PageContainer title="Teachers" description="Manage teacher records">
-      <EmptyState
-        title="No teachers yet"
-        description="Teacher management coming soon"
-      />
+    <PageContainer
+      title="Teachers"
+      description="Manage teacher records"
+    >
+      <TeacherList onAddNew={() => navigate(`${ROUTES.TEACHERS}/new`)} />
     </PageContainer>
   );
 }

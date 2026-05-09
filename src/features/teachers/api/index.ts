@@ -1,0 +1,1 @@
+export { getTeachers, getTeacher, createTeacher, updateTeacher, deleteTeacher } from './mock';
