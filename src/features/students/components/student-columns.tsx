@@ -11,7 +11,11 @@ import {
   DropdownMenuTrigger,
 } from '../../../shared/components/ui/dropdown-menu';
 
-export const studentColumns: ColumnDef<Student>[] = [
+interface StudentColumnsProps {
+  onDelete: (id: string) => void;
+}
+
+export const studentColumns = ({ onDelete }: StudentColumnsProps): ColumnDef<Student>[] => [
   {
     accessorKey: 'rollNo',
     header: 'Roll No',
@@ -48,7 +52,7 @@ export const studentColumns: ColumnDef<Student>[] = [
   },
   {
     id: 'actions',
-    cell: () => {
+    cell: ({ row }) => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -58,7 +62,12 @@ export const studentColumns: ColumnDef<Student>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+            <DropdownMenuItem aria-label="Delete" className="text-destructive" onSelect={(e) => {
+                e.preventDefault();
+                onDelete(row.original.id);
+              }}>
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

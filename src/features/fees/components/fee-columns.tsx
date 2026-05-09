@@ -11,7 +11,11 @@ import {
   DropdownMenuTrigger,
 } from '../../../shared/components/ui/dropdown-menu';
 
-export const feeColumns: ColumnDef<Fee>[] = [
+interface FeeColumnsProps {
+  onDelete: (id: string) => void;
+}
+
+export const feeColumns = ({ onDelete }: FeeColumnsProps): ColumnDef<Fee>[] => [
   {
     accessorKey: 'studentName',
     header: 'Student Name',
@@ -67,7 +71,12 @@ export const feeColumns: ColumnDef<Fee>[] = [
           {row.original.status === 'pending' && (
             <DropdownMenuItem>Mark as Paid</DropdownMenuItem>
           )}
-          <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+          <DropdownMenuItem aria-label="Delete" className="text-destructive" onSelect={(e) => {
+              e.preventDefault();
+              onDelete(row.original.id);
+            }}>
+              Delete
+            </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     ),
