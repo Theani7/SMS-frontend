@@ -9,7 +9,7 @@ export function SidebarToggle() {
     <Button
       variant="outline"
       size="icon"
-      className="hidden lg:flex absolute top-20 -right-3 h-6 w-6 rounded-full border bg-background shadow-sm"
+      className="hidden lg:flex absolute top-20 -right-3 h-7 w-7 rounded-full border bg-background shadow-sm z-50"
       onClick={toggleSidebarCollapse}
       aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
     >

@@ -41,8 +41,11 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
     getFilteredRowModel: getFilteredRowModel(),
   });
 
+  // On mobile, the table scrolls horizontally within the container
   return (
-    <div className="rounded-xl border shadow-sm">
+    <div className="relative rounded-xl border shadow-sm overflow-hidden">
+      {/* Gradient fade indicators on mobile to hint at horizontal scroll */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background to-transparent lg:hidden" />
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

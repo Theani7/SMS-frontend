@@ -104,11 +104,13 @@ export function LoginPage() {
       {/* Right Panel - Login Form (60%, full on mobile) */}
       <div className="w-full lg:w-3/5 flex items-center justify-center p-6 bg-muted/50">
         {/* Mobile logo (hidden on desktop) */}
-        <div className="lg:hidden flex items-center gap-2 mb-8 absolute top-8 left-1/2 -translate-x-1/2">
-          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-            <BookOpen className="w-5 h-5 text-white" />
+        <div className="lg:hidden absolute top-8 left-0 right-0 flex justify-center">
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+              <BookOpen className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-bold text-foreground">School App</span>
           </div>
-          <span className="text-xl font-bold text-foreground">School App</span>
         </div>
 
         <LoginForm />
