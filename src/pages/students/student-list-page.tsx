@@ -1,13 +1,17 @@
 import { PageContainer } from '../../shared/components/layout/page-container';
-import { EmptyState } from '../../shared/components/data-display/empty-state';
+import { StudentList } from '../../features/students/components/student-list';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../shared/lib/constants';
 
 export function StudentsPage() {
+  const navigate = useNavigate();
+
   return (
-    <PageContainer title="Students" description="Manage student records">
-      <EmptyState
-        title="No students yet"
-        description="Student management coming soon"
-      />
+    <PageContainer
+      title="Students"
+      description="Manage student records"
+    >
+      <StudentList onAddNew={() => navigate(`${ROUTES.STUDENTS}/new`)} />
     </PageContainer>
   );
 }
