@@ -10,10 +10,11 @@ import { LoginPage } from '../pages/auth/login-page';
 // Dashboard Pages
 import { DashboardPage } from '../pages/dashboard/index-page';
 
-// Feature Pages (will be created in later phases)
+// Feature Pages
 import { StudentsPage } from '../pages/students/student-list-page';
 import { TeachersPage } from '../pages/teachers/teacher-list-page';
 import { ClassesPage } from '../pages/classes/class-list-page';
+import { ClassFormPage } from '../pages/classes/class-form-page';
 import { AttendancePage } from '../pages/attendance/attendance-list-page';
 import { AttendanceMarkPage } from '../pages/attendance/mark-attendance-page';
 import { FeesPage } from '../pages/fees/fee-list-page';
@@ -65,6 +66,22 @@ export function AppRoutes() {
           element={
             <ProtectedRoute allowedRoles={['admin', 'teacher']}>
               <ClassesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={`${ROUTES.CLASSES}/new`}
+          element={
+            <ProtectedRoute allowedRoles={['admin', 'teacher']}>
+              <ClassFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={`${ROUTES.CLASSES}/:id`}
+          element={
+            <ProtectedRoute allowedRoles={['admin', 'teacher']}>
+              <ClassFormPage />
             </ProtectedRoute>
           }
         />

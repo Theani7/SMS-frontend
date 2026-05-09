@@ -1,13 +1,17 @@
 import { PageContainer } from '../../shared/components/layout/page-container';
-import { EmptyState } from '../../shared/components/data-display/empty-state';
+import { ClassList } from '../../features/classes/components/class-list';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../shared/lib/constants';
 
 export function ClassesPage() {
+  const navigate = useNavigate();
+
   return (
-    <PageContainer title="Classes" description="Manage class schedules">
-      <EmptyState
-        title="No classes yet"
-        description="Class management coming soon"
-      />
+    <PageContainer
+      title="Classes"
+      description="Manage class schedules and assignments"
+    >
+      <ClassList onAddNew={() => navigate(`${ROUTES.CLASSES}/new`)} />
     </PageContainer>
   );
 }
