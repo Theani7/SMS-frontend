@@ -37,6 +37,7 @@ export function Header() {
             size="icon"
             onClick={toggleTheme}
             aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+            className="hover:bg-indigo-50 transition-colors duration-200"
           >
             {theme === 'light' ? (
               <Moon className="h-5 w-5" />
