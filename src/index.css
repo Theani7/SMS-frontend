@@ -62,7 +62,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
-    transition: background-color 200ms ease-out, color 200ms ease-out;
+    transition: background-color 200ms ease-out, color 200ms ease-out, border-color 200ms ease-out;
   }
   h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.01em;

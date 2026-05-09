@@ -17,7 +17,7 @@ export function Header() {
   const { user, logout } = useAuthStore();
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background">
+    <header className="sticky top-0 z-40 w-full border-b bg-background transition-colors">
       <div className="flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-4">
           <Button
