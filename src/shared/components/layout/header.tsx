@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback } from '../ui/avatar';
 
 export function Header() {
   const { theme, toggleTheme } = useThemeStore();
-  const { toggleSidebar } = useUIStore();
+  const { toggleSidebar, sidebarOpen } = useUIStore();
   const { user, logout } = useAuthStore();
 
   return (
@@ -25,6 +25,7 @@ export function Header() {
             size="icon"
             onClick={toggleSidebar}
             className="lg:hidden"
+            aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
           >
             <Menu className="h-5 w-5" />
           </Button>
@@ -35,6 +36,7 @@ export function Header() {
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
+            aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
           >
             {theme === 'light' ? (
               <Moon className="h-5 w-5" />
@@ -43,7 +45,7 @@ export function Header() {
             )}
           </Button>
 
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" aria-label="View notifications">
             <Bell className="h-5 w-5" />
           </Button>
 

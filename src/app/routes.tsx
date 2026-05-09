@@ -118,6 +118,14 @@ export function AppRoutes() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path={`${ROUTES.FEES}/:id`}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <FeeFormPage />
+            </ProtectedRoute>
+          }
+        />
       </Route>
 
       {/* Catch all */}
