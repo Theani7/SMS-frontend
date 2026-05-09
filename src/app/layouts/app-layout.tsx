@@ -1,14 +1,10 @@
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from '../../shared/components/layout/sidebar';
 import { Header } from '../../shared/components/layout/header';
-import { useUIStore } from '../../shared/store/ui-store';
-import { cn } from '../../shared/lib/utils';
 
 export function AppLayout() {
-  const { sidebarCollapsed } = useUIStore();
-
   return (
-    <div className="min-h-screen bg-muted/50">
+    <div className="flex h-screen overflow-hidden bg-background">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-background focus:px-4 focus:py-2 focus:ring-2 focus:ring-ring"
@@ -18,14 +14,15 @@ export function AppLayout() {
       <Sidebar />
       <div
         id="main-content"
-        className={cn(
-          'transition-all duration-300',
-          sidebarCollapsed ? 'lg:ml-14' : 'lg:ml-60'
-        )}
+        className="flex flex-col flex-1 min-w-0 overflow-hidden"
       >
         <Header />
-        <main className="p-4 lg:p-6">
-          <Outlet />
+        <main className="flex-1 overflow-y-auto bg-slate-50/50 dark:bg-slate-900/50">
+          <div className="px-4 py-5 lg:px-8 lg:py-6">
+            <div className="mx-auto max-w-7xl">
+              <Outlet />
+            </div>
+          </div>
         </main>
       </div>
     </div>
