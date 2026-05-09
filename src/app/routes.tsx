@@ -18,6 +18,7 @@ import { ClassFormPage } from '../pages/classes/class-form-page';
 import { AttendancePage } from '../pages/attendance/attendance-list-page';
 import { AttendanceMarkPage } from '../pages/attendance/mark-attendance-page';
 import { FeesPage } from '../pages/fees/fee-list-page';
+import { FeeFormPage } from '../pages/fees/fee-form-page';
 
 export function AppRoutes() {
   return (
@@ -106,6 +107,14 @@ export function AppRoutes() {
           element={
             <ProtectedRoute allowedRoles={['admin', 'parent']}>
               <FeesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={`${ROUTES.FEES}/new`}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <FeeFormPage />
             </ProtectedRoute>
           }
         />
