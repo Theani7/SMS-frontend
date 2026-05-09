@@ -57,7 +57,7 @@ export function AttendanceForm() {
   };
 
   return (
-    <Card>
+    <Card className="shadow-soft border-slate-100 max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle>Mark Attendance</CardTitle>
       </CardHeader>
@@ -136,7 +136,7 @@ export function AttendanceForm() {
 
           <Button
             type="submit"
-            className="w-full gap-2"
+            className="w-full h-12 text-base shadow-button btn-lift gap-2"
             disabled={markAttendance.isPending}
           >
             {markAttendance.isPending && <Loader2 className="h-4 w-4 animate-spin" />}

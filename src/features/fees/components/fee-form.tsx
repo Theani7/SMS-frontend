@@ -75,7 +75,7 @@ export function FeeForm({ fee, onSuccess }: FeeFormProps) {
   };
 
   return (
-    <Card>
+    <Card className="shadow-soft border-slate-100 max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle>{isEditing ? 'Edit Fee' : 'Add New Fee'}</CardTitle>
       </CardHeader>
@@ -128,7 +128,7 @@ export function FeeForm({ fee, onSuccess }: FeeFormProps) {
           </FormField>
 
           <div className="flex gap-4">
-            <Button type="submit" className="gap-2" disabled={createFee.isPending || updateFee.isPending}>
+            <Button type="submit" className="w-full h-12 text-base shadow-button btn-lift gap-2" disabled={createFee.isPending || updateFee.isPending}>
               {createFee.isPending || updateFee.isPending
                 ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</>
                 : isEditing
