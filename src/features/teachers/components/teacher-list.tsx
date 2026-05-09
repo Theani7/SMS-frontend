@@ -3,10 +3,20 @@ import { DataTable } from '../../../shared/components/data-display/data-table';
 import { EmptyState } from '../../../shared/components/data-display/empty-state';
 import { Button } from '../../../shared/components/ui/button';
 import { Input } from '../../../shared/components/ui/input';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '../../../shared/components/ui/dialog';
 import { useTeachers } from '../hooks/use-teachers';
 import { teacherColumns } from './teacher-columns';
-import { Search, Plus } from 'lucide-react';
+import { Search, Plus, X } from 'lucide-react';
 import { useDebounce } from '../../../shared/hooks/use-debounce';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteTeacher } from '../api';
 
 interface TeacherListProps {
   onAddNew?: () => void;
@@ -14,8 +24,18 @@ interface TeacherListProps {
 
 export function TeacherList({ onAddNew }: TeacherListProps) {
   const [search, setSearch] = useState('');
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const debouncedSearch = useDebounce(search, 300);
+  const queryClient = useQueryClient();
   const { data: teachers, isLoading } = useTeachers(debouncedSearch);
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteTeacher,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['teachers'] });
+      setDeleteId(null);
+    },
+  });
 
   return (
     <div className="space-y-6">
@@ -26,8 +46,19 @@ export function TeacherList({ onAddNew }: TeacherListProps) {
             placeholder="Search teachers..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10"
+            className="pl-10 pr-10"
           />
+          {search && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+              onClick={() => setSearch('')}
+              aria-label="Clear search"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          )}
         </div>
         {onAddNew && (
           <Button onClick={onAddNew} className="gap-2">
@@ -50,8 +81,29 @@ export function TeacherList({ onAddNew }: TeacherListProps) {
           action={onAddNew ? { label: 'Add Teacher', onClick: onAddNew } : undefined}
         />
       ) : (
-        <DataTable columns={teacherColumns} data={teachers || []} />
+        <DataTable columns={teacherColumns({ onDelete: setDeleteId })} data={teachers || []} />
       )}
+
+      <Dialog open={deleteId !== null} onOpenChange={(open) => !open && setDeleteId(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm deletion</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this teacher? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteId(null)}>Cancel</Button>
+            <Button
+              variant="destructive"
+              onClick={() => deleteId && deleteMutation.mutate(deleteId)}
+              disabled={deleteMutation.isPending}
+            >
+              {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

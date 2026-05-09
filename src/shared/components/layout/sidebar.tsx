@@ -12,8 +12,6 @@ import {
   BookOpen,
   ClipboardCheck,
   DollarSign,
-  Settings,
-  FileText,
   X,
 } from 'lucide-react';
 
@@ -30,8 +28,6 @@ const managementNavigation = [
 const operationsNavigation = [
   { name: 'Attendance', href: ROUTES.ATTENDANCE, icon: ClipboardCheck, roles: ['admin', 'teacher', 'parent', 'student'] },
   { name: 'Fees', href: ROUTES.FEES, icon: DollarSign, roles: ['admin', 'parent'] },
-  { name: 'Reports', href: '#', icon: FileText, roles: ['admin'] },
-  { name: 'Settings', href: '#', icon: Settings, roles: ['admin'] },
 ];
 
 interface NavItemType {
@@ -98,7 +94,7 @@ function SectionNav({ items, title, isCollapsed, location, onItemClick }: Sectio
         <NavItem
           key={item.name}
           item={item}
-          isActive={location === item.href}
+          isActive={location === item.href || location.startsWith(`${item.href}/`)}
           collapsed={isCollapsed}
           onClick={onItemClick}
         />

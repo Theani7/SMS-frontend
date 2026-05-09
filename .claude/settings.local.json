@@ -8,7 +8,9 @@
       "Bash(git commit -m ' *)",
       "Bash(npx tailwindcss *)",
       "Bash(git commit *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(git -C /Users/theani7x/Downloads/school-frontend add src/index.css src/shared/components/layout/header.tsx)",
+      "Bash(git -C /Users/theani7x/Downloads/school-frontend commit -m ' *)"
     ]
   }
 }

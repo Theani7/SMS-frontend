@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,38 +6,62 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222.2 47.4% 9.1%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 9.1%;
+    --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 9.1%;
+    --popover-foreground: 222.2 84% 4.9%;
     --primary: 239 84% 67%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 9.1%;
+    --secondary: 263 70% 58%;
+    --secondary-foreground: 210 40% 98%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
     --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 9.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 239 84% 67%;
-    --radius: 0.5rem;
+    --radius: 0.625rem;
+    /* Corporate Trust palette */
+    --corporate-primary: 239 84% 67%;
+    --corporate-secondary: 263 70% 58%;
+    --corporate-indigo-50: 239 100% 97%;
+    --corporate-indigo-100: 239 84% 92%;
+    --corporate-indigo-500: 239 84% 67%;
+    --corporate-indigo-600: 239 84% 57%;
+    --corporate-violet-50: 263 100% 97%;
+    --corporate-violet-100: 263 70% 94%;
+    --corporate-violet-500: 263 70% 58%;
+    --corporate-violet-600: 263 70% 50%;
+    --corporate-slate-50: 215 28% 97%;
+    --corporate-slate-100: 215 28% 93%;
+    --corporate-slate-200: 215 28% 87%;
+    --corporate-slate-400: 215 16% 56%;
+    --corporate-slate-500: 215 20% 46%;
+    --corporate-slate-600: 215 25% 33%;
+    --corporate-slate-700: 215 28% 22%;
+    --corporate-slate-800: 215 28% 13%;
+    --corporate-slate-900: 222 47% 9%;
+    --corporate-success: 142 71% 45%;
+    --corporate-warning: 38 92% 50%;
+    --corporate-error: 0 72% 51%;
+    --corporate-info: 199 89% 48%;
   }
 
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-    --card: 217.2 32.6% 17%;
+    --card: 217.2 32.6% 10%;
     --card-foreground: 210 40% 98%;
-    --popover: 217.2 32.6% 17%;
+    --popover: 217.2 32.6% 10%;
     --popover-foreground: 210 40% 98%;
-    --primary: 229 80% 76%;
+    --primary: 239 84% 76%;
     --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17%;
+    --secondary: 263 70% 66%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17%;
     --muted-foreground: 215 20.2% 65.1%;
@@ -47,8 +71,32 @@
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17%;
     --input: 217.2 32.6% 17%;
-    --ring: 229 80% 76%;
-    --radius: 0.5rem;
+    --ring: 239 84% 76%;
+    --radius: 0.625rem;
+    /* Corporate Trust palette - dark mode */
+    --corporate-primary: 239 84% 76%;
+    --corporate-secondary: 263 70% 66%;
+    --corporate-indigo-50: 239 100% 15%;
+    --corporate-indigo-100: 239 84% 22%;
+    --corporate-indigo-500: 239 84% 76%;
+    --corporate-indigo-600: 239 84% 82%;
+    --corporate-violet-50: 263 100% 15%;
+    --corporate-violet-100: 263 70% 22%;
+    --corporate-violet-500: 263 70% 66%;
+    --corporate-violet-600: 263 70% 74%;
+    --corporate-slate-50: 215 28% 13%;
+    --corporate-slate-100: 215 28% 18%;
+    --corporate-slate-200: 215 28% 25%;
+    --corporate-slate-400: 215 16% 56%;
+    --corporate-slate-500: 215 20% 65%;
+    --corporate-slate-600: 215 25% 75%;
+    --corporate-slate-700: 215 28% 88%;
+    --corporate-slate-800: 215 28% 95%;
+    --corporate-slate-900: 210 40% 98%;
+    --corporate-success: 142 71% 55%;
+    --corporate-warning: 38 92% 55%;
+    --corporate-error: 0 72% 60%;
+    --corporate-info: 199 89% 55%;
   }
 }
 
@@ -61,12 +109,166 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
-    transition: background-color 200ms ease-out, color 200ms ease-out, border-color 200ms ease-out;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
   h1, h2, h3, h4, h5, h6 {
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
+}
+
+/* Corporate Trust colored shadows */
+.shadow-soft {
+  box-shadow:
+    0 4px 16px -4px hsl(239 84% 67% / 0.15),
+    0 2px 8px -2px hsl(239 84% 67% / 0.1);
+}
+
+.shadow-elevated {
+  box-shadow:
+    0 12px 32px -4px hsl(239 84% 67% / 0.2),
+    0 8px 16px -4px hsl(239 84% 67% / 0.12),
+    0 4px 8px -4px hsl(239 84% 67% / 0.08);
+}
+
+.shadow-button {
+  box-shadow:
+    0 2px 8px -2px hsl(239 84% 67% / 0.25),
+    0 4px 12px -4px hsl(239 84% 67% / 0.15);
+}
+
+.shadow-glow {
+  box-shadow:
+    0 0 20px -4px hsl(239 84% 67% / 0.35),
+    0 0 40px -8px hsl(239 84% 67% / 0.2);
+}
+
+/* Dark mode adjustments for colored shadows */
+.dark .shadow-soft {
+  box-shadow:
+    0 4px 16px -4px hsl(239 84% 76% / 0.25),
+    0 2px 8px -2px hsl(239 84% 76% / 0.15);
+}
+
+.dark .shadow-elevated {
+  box-shadow:
+    0 12px 32px -4px hsl(239 84% 76% / 0.3),
+    0 8px 16px -4px hsl(239 84% 76% / 0.2),
+    0 4px 8px -4px hsl(239 84% 76% / 0.12);
+}
+
+.dark .shadow-button {
+  box-shadow:
+    0 2px 8px -2px hsl(239 84% 76% / 0.35),
+    0 4px 12px -4px hsl(239 84% 76% / 0.2);
+}
+
+.dark .shadow-glow {
+  box-shadow:
+    0 0 20px -4px hsl(239 84% 76% / 0.45),
+    0 0 40px -8px hsl(239 84% 76% / 0.3);
+}
+
+/* Corporate Trust gradient utilities */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(263 70% 58%) 100%);
+}
+
+.bg-gradient-indigo {
+  background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(239 100% 92%) 100%);
+}
+
+.bg-gradient-violet {
+  background: linear-gradient(135deg, hsl(263 70% 58%) 0%, hsl(239 100% 92%) 100%);
+}
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(263 70% 58%) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-indigo {
+  background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(239 84% 67% / 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Corporate Trust card hover effects */
+.card-hover {
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+}
+
+.card-hover:active {
+  transform: translateY(0);
+}
+
+.dark .card-hover:hover {
+  box-shadow:
+    0 12px 24px -4px hsl(239 84% 76% / 0.2),
+    0 8px 16px -4px hsl(239 84% 76% / 0.15);
+}
+
+.dark .card-hover {
+  box-shadow:
+    0 4px 12px -2px hsl(239 84% 76% / 0.15),
+    0 2px 6px -2px hsl(239 84% 76% / 0.1);
+}
+
+/* Corporate Trust button hover effects */
+.btn-lift {
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+.btn-lift:hover {
+  transform: translateY(-1px);
+}
+
+.btn-lift:active {
+  transform: translateY(0);
+}
+
+/* Gradient blob background */
+.bg-blob {
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-blob::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -25%;
+  width: 80%;
+  height: 200%;
+  background: radial-gradient(
+    ellipse at center,
+    hsl(239 84% 67% / 0.08) 0%,
+    hsl(263 70% 58% / 0.04) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-blob > * {
+  position: relative;
+  z-index: 1;
+}
+
+.dark .bg-blob::before {
+  background: radial-gradient(
+    ellipse at center,
+    hsl(239 84% 76% / 0.12) 0%,
+    hsl(263 70% 66% / 0.06) 40%,
+    transparent 70%
+  );
 }
 
 /* Dark mode shadow improvements */

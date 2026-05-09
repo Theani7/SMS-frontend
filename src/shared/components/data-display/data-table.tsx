@@ -18,6 +18,7 @@ import {
   TableRow,
 } from '../ui/table';
 import { ChevronUp, ChevronDown } from 'lucide-react';
+import { EmptyState } from './empty-state';
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[];
@@ -116,8 +117,11 @@ export function DataTable<TData>({ columns, data, onRowClick }: DataTableProps<T
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+              <TableCell colSpan={columns.length} className="h-24">
+                <EmptyState
+                  title="No results found"
+                  description="Try adjusting your search or filters"
+                />
               </TableCell>
             </TableRow>
           )}

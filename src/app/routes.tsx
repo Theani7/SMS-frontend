@@ -12,7 +12,9 @@ import { DashboardPage } from '../pages/dashboard/index-page';
 
 // Feature Pages
 import { StudentsPage } from '../pages/students/student-list-page';
+import { StudentFormPage } from '../pages/students/student-form-page';
 import { TeachersPage } from '../pages/teachers/teacher-list-page';
+import { TeacherFormPage } from '../pages/teachers/teacher-form-page';
 import { ClassesPage } from '../pages/classes/class-list-page';
 import { ClassFormPage } from '../pages/classes/class-form-page';
 import { AttendancePage } from '../pages/attendance/attendance-list-page';
@@ -26,7 +28,7 @@ export function AppRoutes() {
       {/* Public Routes */}
       <Route element={<AuthLayout />}>
         <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-        <Route path={ROUTES.REGISTER} element={<div>Register Page</div>} />
+        <Route path={ROUTES.REGISTER} element={<div>Registration is not available. Please contact the administrator.</div>} />
       </Route>
 
       {/* Protected Routes */}
@@ -55,10 +57,42 @@ export function AppRoutes() {
           }
         />
         <Route
+          path={`${ROUTES.STUDENTS}/new`}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <StudentFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={`${ROUTES.STUDENTS}/:id`}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <StudentFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path={ROUTES.TEACHERS}
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               <TeachersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={`${ROUTES.TEACHERS}/new`}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <TeacherFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={`${ROUTES.TEACHERS}/:id`}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <TeacherFormPage />
             </ProtectedRoute>
           }
         />

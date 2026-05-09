@@ -47,7 +47,10 @@ export const useUIStore = create<UIState>()(
     }),
     {
       name: 'ui-storage',
-      partialize: (state) => ({ sidebarOpen: state.sidebarOpen, sidebarCollapsed: state.sidebarCollapsed }),
+      partialize: (state) => ({
+        sidebarCollapsed: state.sidebarCollapsed,
+        // sidebarOpen is only for mobile and should not persist
+      }),
     }
   )
 );

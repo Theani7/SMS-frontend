@@ -45,8 +45,11 @@ export function Header() {
             )}
           </Button>
 
-          <Button variant="ghost" size="icon" aria-label="View notifications">
+          <Button variant="ghost" size="icon" aria-label="View notifications" className="relative">
             <Bell className="h-5 w-5" />
+            <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-destructive text-destructive-foreground text-xs flex items-center justify-center">
+              3
+            </span>
           </Button>
 
           <DropdownMenu>
