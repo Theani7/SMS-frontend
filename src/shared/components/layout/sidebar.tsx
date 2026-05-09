@@ -54,12 +54,12 @@ function NavItem({ item, isActive, collapsed, onClick }: NavItemProps) {
       <div
         className={cn(
           'group relative flex items-center gap-3 px-3 py-2 rounded-lg transition-colors cursor-pointer',
-          isActive ? 'bg-indigo-50' : 'hover:bg-indigo-50',
+          isActive ? 'bg-primary/10' : 'hover:bg-accent',
           isActive && 'border-l-4 border-indigo-500 -ml-1 pl-4'
         )}
         title={collapsed ? item.name : undefined}
       >
-        <item.icon className={cn('h-5 w-5 shrink-0', isActive ? 'text-indigo-600' : 'text-muted-foreground')} />
+        <item.icon className={cn('h-5 w-5 shrink-0', isActive ? 'text-primary' : 'text-muted-foreground')} />
         <span
           className={cn(
             'font-medium transition-all duration-200',
@@ -141,7 +141,7 @@ export function Sidebar() {
       >
         <div className={cn('flex h-16 items-center border-b px-4', sidebarCollapsed ? 'lg:justify-center lg:px-2' : '')}>
           {!sidebarCollapsed && <span className="text-xl font-bold">School App</span>}
-          {sidebarCollapsed && <div className="h-6 w-6 rounded bg-indigo-500 lg:block hidden" />}
+          {sidebarCollapsed && <div className="h-6 w-6 rounded bg-primary lg:block hidden" />}
           <Button
             variant="ghost"
             size="icon"
@@ -169,7 +169,7 @@ export function Sidebar() {
         <div className={cn('border-t p-4', sidebarCollapsed ? 'lg:px-2 lg:py-3' : '')}>
           {user ? (
             <div className={cn('flex items-center gap-3', sidebarCollapsed ? 'lg:justify-center' : '')}>
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-500 text-white font-medium">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-white font-medium">
                 {user.name?.charAt(0).toUpperCase() || 'U'}
               </div>
               <div className={cn('flex-1 min-w-0 transition-all duration-200', sidebarCollapsed ? 'lg:hidden lg:opacity-0 lg:w-0' : 'lg:block')}>
