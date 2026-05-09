@@ -42,14 +42,25 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   });
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-xl border shadow-sm">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="border-b bg-muted/50">
               {headerGroup.headers.map((header) => {
+                const isSorted = header.column.getIsSorted();
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    className="text-xs font-medium text-muted-foreground uppercase tracking-wider"
+                    aria-sort={
+                      isSorted === 'asc'
+                        ? 'ascending'
+                        : isSorted === 'desc'
+                        ? 'descending'
+                        : undefined
+                    }
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -65,9 +76,9 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow key={row.id} className="border-b last:border-0 hover:bg-muted/30 transition-colors">
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className="py-3">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
