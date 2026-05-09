@@ -118,183 +118,163 @@
 }
 
 /* Corporate Trust colored shadows */
-.shadow-soft {
-  box-shadow:
-    0 4px 16px -4px hsl(239 84% 67% / 0.15),
-    0 2px 8px -2px hsl(239 84% 67% / 0.1);
+@layer utilities {
+  .shadow-soft {
+    box-shadow:
+      0 4px 16px -4px hsl(239 84% 67% / 0.15),
+      0 2px 8px -2px hsl(239 84% 67% / 0.1);
+  }
+
+  .shadow-elevated {
+    box-shadow:
+      0 12px 32px -4px hsl(239 84% 67% / 0.2),
+      0 8px 16px -4px hsl(239 84% 67% / 0.12),
+      0 4px 8px -4px hsl(239 84% 67% / 0.08);
+  }
+
+  .shadow-button {
+    box-shadow:
+      0 2px 8px -2px hsl(239 84% 67% / 0.25),
+      0 4px 12px -4px hsl(239 84% 67% / 0.15);
+  }
+
+  .shadow-glow {
+    box-shadow:
+      0 0 20px -4px hsl(239 84% 67% / 0.35),
+      0 0 40px -8px hsl(239 84% 67% / 0.2);
+  }
+
+  /* Corporate Trust gradient utilities */
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(263 70% 58%) 100%);
+  }
+
+  .bg-gradient-indigo {
+    background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(239 100% 92%) 100%);
+  }
+
+  .bg-gradient-violet {
+    background: linear-gradient(135deg, hsl(263 70% 58%) 0%, hsl(239 100% 92%) 100%);
+  }
+
+  .text-gradient-primary {
+    background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(263 70% 58%) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-indigo {
+    background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(239 84% 67% / 0.7) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Corporate Trust card hover effects */
+  .card-hover {
+    transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+  }
+
+  .card-hover:active {
+    transform: translateY(0);
+  }
+
+  /* Corporate Trust button hover effects */
+  .btn-lift {
+    transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+  }
+
+  .btn-lift:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-lift:active {
+    transform: translateY(0);
+  }
+
+  /* Gradient blob background */
+  .bg-blob {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bg-blob::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -25%;
+    width: 80%;
+    height: 200%;
+    background: radial-gradient(
+      ellipse at center,
+      hsl(239 84% 67% / 0.08) 0%,
+      hsl(263 70% 58% / 0.04) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .bg-blob > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Dark mode overrides for custom shadows using CSS variable */
+  .dark .shadow-soft {
+    --tw-shadow-color: hsl(239 84% 76% / 0.25);
+  }
+
+  .dark .shadow-elevated {
+    --tw-shadow-color: hsl(239 84% 76% / 0.3);
+  }
+
+  .dark .shadow-button {
+    --tw-shadow-color: hsl(239 84% 76% / 0.35);
+  }
+
+  .dark .shadow-glow {
+    --tw-shadow-color: hsl(239 84% 76% / 0.45);
+  }
+
+  .dark .card-hover {
+    --tw-shadow-color: hsl(239 84% 76% / 0.2);
+  }
+
+  .dark .bg-blob::before {
+    background: radial-gradient(
+      ellipse at center,
+      hsl(239 84% 76% / 0.12) 0%,
+      hsl(263 70% 66% / 0.06) 40%,
+      transparent 70%
+    );
+  }
 }
 
-.shadow-elevated {
-  box-shadow:
-    0 12px 32px -4px hsl(239 84% 67% / 0.2),
-    0 8px 16px -4px hsl(239 84% 67% / 0.12),
-    0 4px 8px -4px hsl(239 84% 67% / 0.08);
-}
-
-.shadow-button {
-  box-shadow:
-    0 2px 8px -2px hsl(239 84% 67% / 0.25),
-    0 4px 12px -4px hsl(239 84% 67% / 0.15);
-}
-
-.shadow-glow {
-  box-shadow:
-    0 0 20px -4px hsl(239 84% 67% / 0.35),
-    0 0 40px -8px hsl(239 84% 67% / 0.2);
-}
-
-/* Dark mode adjustments for colored shadows */
-.dark .shadow-soft {
-  box-shadow:
-    0 4px 16px -4px hsl(239 84% 76% / 0.25),
-    0 2px 8px -2px hsl(239 84% 76% / 0.15);
-}
-
-.dark .shadow-elevated {
-  box-shadow:
-    0 12px 32px -4px hsl(239 84% 76% / 0.3),
-    0 8px 16px -4px hsl(239 84% 76% / 0.2),
-    0 4px 8px -4px hsl(239 84% 76% / 0.12);
-}
-
-.dark .shadow-button {
-  box-shadow:
-    0 2px 8px -2px hsl(239 84% 76% / 0.35),
-    0 4px 12px -4px hsl(239 84% 76% / 0.2);
-}
-
-.dark .shadow-glow {
-  box-shadow:
-    0 0 20px -4px hsl(239 84% 76% / 0.45),
-    0 0 40px -8px hsl(239 84% 76% / 0.3);
-}
-
-/* Corporate Trust gradient utilities */
-.bg-gradient-primary {
-  background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(263 70% 58%) 100%);
-}
-
-.bg-gradient-indigo {
-  background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(239 100% 92%) 100%);
-}
-
-.bg-gradient-violet {
-  background: linear-gradient(135deg, hsl(263 70% 58%) 0%, hsl(239 100% 92%) 100%);
-}
-
-.text-gradient-primary {
-  background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(263 70% 58%) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-indigo {
-  background: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(239 84% 67% / 0.7) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Corporate Trust card hover effects */
-.card-hover {
-  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
-}
-
-.card-hover:hover {
-  transform: translateY(-2px);
-}
-
-.card-hover:active {
-  transform: translateY(0);
-}
-
-.dark .card-hover:hover {
-  box-shadow:
-    0 12px 24px -4px hsl(239 84% 76% / 0.2),
-    0 8px 16px -4px hsl(239 84% 76% / 0.15);
-}
-
-.dark .card-hover {
-  box-shadow:
-    0 4px 12px -2px hsl(239 84% 76% / 0.15),
-    0 2px 6px -2px hsl(239 84% 76% / 0.1);
-}
-
-/* Corporate Trust button hover effects */
-.btn-lift {
-  transition: transform 150ms ease-out, box-shadow 150ms ease-out;
-}
-
-.btn-lift:hover {
-  transform: translateY(-1px);
-}
-
-.btn-lift:active {
-  transform: translateY(0);
-}
-
-/* Gradient blob background */
-.bg-blob {
-  position: relative;
-  overflow: hidden;
-}
-
-.bg-blob::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -25%;
-  width: 80%;
-  height: 200%;
-  background: radial-gradient(
-    ellipse at center,
-    hsl(239 84% 67% / 0.08) 0%,
-    hsl(263 70% 58% / 0.04) 40%,
-    transparent 70%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-.bg-blob > * {
-  position: relative;
-  z-index: 1;
-}
-
-.dark .bg-blob::before {
-  background: radial-gradient(
-    ellipse at center,
-    hsl(239 84% 76% / 0.12) 0%,
-    hsl(263 70% 66% / 0.06) 40%,
-    transparent 70%
-  );
-}
-
-/* Dark mode shadow improvements */
+/* Dark mode shadow improvements - using CSS variable for colored shadows */
 .dark .shadow-sm {
-  --tw-shadow-colored: 0 1px 2px 0 rgb(0 0 0 / 0.4);
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --tw-shadow-color: hsl(239 84% 76% / 0.4);
 }
 
 .dark .shadow {
-  --tw-shadow-colored: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+  --tw-shadow-color: hsl(239 84% 76% / 0.4);
 }
 
 .dark .shadow-md {
-  --tw-shadow-colored: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --tw-shadow-color: hsl(239 84% 76% / 0.4);
 }
 
 .dark .shadow-lg {
-  --tw-shadow-colored: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  --tw-shadow-color: hsl(239 84% 76% / 0.4);
 }
 
 .dark .shadow-xl {
-  --tw-shadow-colored: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+  --tw-shadow-color: hsl(239 84% 76% / 0.4);
 }
 
 @media (prefers-reduced-motion: reduce) {
