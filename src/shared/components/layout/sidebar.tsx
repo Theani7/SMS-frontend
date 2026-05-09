@@ -50,12 +50,14 @@ function NavItem({ item, isActive, collapsed, onClick }: NavItemProps) {
       <div
         className={cn(
           'group relative flex items-center gap-3 px-3 py-2 rounded-lg transition-colors cursor-pointer',
-          isActive ? 'bg-primary/10' : 'hover:bg-accent',
-          isActive && 'border-l-4 border-indigo-500 -ml-1 pl-4'
+          isActive ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'hover:bg-indigo-50/70 text-slate-600 hover:text-slate-900'
         )}
         title={collapsed ? item.name : undefined}
       >
-        <item.icon className={cn('h-5 w-5 shrink-0', isActive ? 'text-primary' : 'text-muted-foreground')} />
+        {isActive && (
+          <span className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-1 rounded-r-full bg-gradient-to-b from-indigo-500 to-violet-500" />
+        )}
+        <item.icon className={cn('h-5 w-5 shrink-0', isActive ? 'text-indigo-600' : 'text-slate-500')} />
         <span
           className={cn(
             'font-medium transition-all duration-200',
@@ -165,7 +167,7 @@ export function Sidebar() {
         <div className={cn('border-t p-4', sidebarCollapsed ? 'lg:px-2 lg:py-3' : '')}>
           {user ? (
             <div className={cn('flex items-center gap-3', sidebarCollapsed ? 'lg:justify-center' : '')}>
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-white font-medium">
+              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white font-bold shadow-glow">
                 {user.name?.charAt(0).toUpperCase() || 'U'}
               </div>
               <div className={cn('flex-1 min-w-0 transition-all duration-200', sidebarCollapsed ? 'lg:hidden lg:opacity-0 lg:w-0' : 'lg:block')}>
