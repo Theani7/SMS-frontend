@@ -15,17 +15,17 @@ export function LoginPage() {
         <div className="relative z-10 flex flex-col justify-center px-12 py-16 w-full">
           {/* Logo area */}
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-slate-900">School App</span>
+            <span className="text-2xl font-bold text-foreground">School App</span>
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl font-bold text-slate-900 mb-4">
+          <h1 className="text-4xl font-bold text-foreground mb-4">
             Education Platform
           </h1>
-          <p className="text-lg text-slate-600 mb-10">
+          <p className="text-lg text-muted-foreground mb-10">
             Streamline your school management with our comprehensive platform designed for modern educators.
           </p>
 
@@ -74,28 +74,28 @@ export function LoginPage() {
           {/* Feature list */}
           <ul className="space-y-4">
             <li className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-                <Users className="w-4 h-4 text-indigo-600" />
+              <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                <Users className="w-4 h-4 text-primary" />
               </div>
-              <span className="text-slate-700">Streamlined student management</span>
+              <span className="text-foreground">Streamlined student management</span>
             </li>
             <li className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-                <CheckCircle className="w-4 h-4 text-indigo-600" />
+              <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                <CheckCircle className="w-4 h-4 text-primary" />
               </div>
-              <span className="text-slate-700">Real-time attendance tracking</span>
+              <span className="text-foreground">Real-time attendance tracking</span>
             </li>
             <li className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-                <DollarSign className="w-4 h-4 text-indigo-600" />
+              <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                <DollarSign className="w-4 h-4 text-primary" />
               </div>
-              <span className="text-slate-700">Automated fees management</span>
+              <span className="text-foreground">Automated fees management</span>
             </li>
             <li className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-                <Calendar className="w-4 h-4 text-indigo-600" />
+              <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                <Calendar className="w-4 h-4 text-primary" />
               </div>
-              <span className="text-slate-700">Smart class scheduling</span>
+              <span className="text-foreground">Smart class scheduling</span>
             </li>
           </ul>
         </div>
@@ -105,10 +105,10 @@ export function LoginPage() {
       <div className="w-full lg:w-3/5 flex items-center justify-center p-6 bg-muted/50">
         {/* Mobile logo (hidden on desktop) */}
         <div className="lg:hidden flex items-center gap-2 mb-8 absolute top-8 left-1/2 -translate-x-1/2">
-          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
             <BookOpen className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xl font-bold text-slate-900">School App</span>
+          <span className="text-xl font-bold text-foreground">School App</span>
         </div>
 
         <LoginForm />
