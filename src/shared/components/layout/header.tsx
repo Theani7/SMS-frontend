@@ -17,7 +17,7 @@ export function Header() {
   const { user, logout } = useAuthStore();
 
   return (
-    <header className="flex h-14 items-center justify-between border-b bg-background px-4 lg:px-6">
+    <header className="flex h-14 items-center justify-between border-b border-slate-200/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 lg:px-6 sticky top-0 z-50">
       <div className="flex items-center gap-4">
         <Button
           variant="ghost"
@@ -28,10 +28,20 @@ export function Header() {
         >
           <Menu className="h-5 w-5" />
         </Button>
-        <div className="hidden lg:flex items-center gap-2 text-sm text-muted-foreground">
-          <span className="font-medium text-foreground capitalize">{user?.role}</span>
-          <span>/</span>
-          <span>Dashboard</span>
+        <div className="hidden lg:flex items-center gap-3 text-sm tracking-tight">
+          <div className="flex items-center gap-2 text-slate-500">
+            <span className="font-medium text-slate-900 dark:text-slate-100 capitalize">{user?.role}</span>
+            <span className="text-slate-300">/</span>
+            <span className="font-medium">Dashboard</span>
+          </div>
+          <div className="h-4 w-px bg-slate-200 dark:bg-slate-800 mx-1" />
+          <span className="text-slate-500 font-medium">
+            {new Date().toLocaleDateString('en-US', {
+              weekday: 'long',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </span>
         </div>
       </div>
 

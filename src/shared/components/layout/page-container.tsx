@@ -14,12 +14,12 @@ export function PageContainer({
   description
 }: PageContainerProps) {
   return (
-    <div className={cn('flex flex-col gap-6', className)}>
+    <div className={cn('flex flex-col gap-5 p-4 lg:p-6', className)}>
       {title && (
-        <div className="flex flex-col gap-1 border-b pb-4 mb-2">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">{title}</h1>
+        <div className="flex flex-col gap-0.5">
+          <h1 className="text-xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">{title}</h1>
           {description && (
-            <p className="text-sm text-slate-500 dark:text-slate-400">{description}</p>
+            <p className="text-[13px] text-slate-500 dark:text-slate-400">{description}</p>
           )}
         </div>
       )}
