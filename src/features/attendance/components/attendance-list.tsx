@@ -3,13 +3,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { Badge } from '../../../shared/components/ui/badge';
 import { EmptyState } from '../../../shared/components/data-display/empty-state';
 import { useAttendance } from '../hooks/use-attendance';
+import { ErrorCard } from '../../../shared/components/student/error-card';
 import { AttendanceFilters } from './attendance-filters';
 import { formatDate, cn } from '../../../shared/lib/utils';
 import type { AttendanceFilters as Filters } from '../types/attendance';
 
 export function AttendanceList() {
   const [filters, setFilters] = useState<Filters>({});
-  const { data: attendance, isLoading } = useAttendance(filters);
+  const { data: attendance, isLoading, isError, refetch } = useAttendance(filters);
 
   const getStatusBadge = (status: 'present' | 'absent' | 'late') => {
     const variants = {
@@ -37,9 +38,14 @@ export function AttendanceList() {
             <div key={i} className="h-12 bg-slate-50 dark:bg-slate-900 rounded-xl" />
           ))}
         </div>
+      ) : isError ? (
+        <ErrorCard
+          title="Couldn't load your attendance records"
+          onRetry={() => refetch()}
+        />
       ) : attendance?.length === 0 ? (
         <EmptyState
-          title="No attendance records"
+          title="No attendance records yet"
           description="Try adjusting your filters or mark attendance for today"
         />
       ) : (
