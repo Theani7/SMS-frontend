@@ -29,6 +29,7 @@ interface MockAttendance {
 
 interface MockFee {
   id: string;
+  studentId: string;
   studentName: string;
   amount: number;
   status: 'paid' | 'pending';
@@ -98,7 +99,7 @@ export const mockDb: MockDatabase = {
     { id: '3', studentId: '3', date: '2026-05-10', status: 'absent' },
   ],
   fees: [
-    { id: '1', studentName: 'Emma Wilson', amount: 500, status: 'pending' },
-    { id: '2', studentName: 'James Brown', amount: 500, status: 'paid' },
+    { id: '1', studentId: '1', studentName: 'Emma Wilson', amount: 500, status: 'pending' },
+    { id: '2', studentId: '2', studentName: 'James Brown', amount: 500, status: 'paid' },
   ],
 };
