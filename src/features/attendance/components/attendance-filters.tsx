@@ -42,12 +42,12 @@ export function AttendanceFilters({ onFilter }: AttendanceFiltersProps) {
       </FormField>
 
       <FormField label="Class" className="w-[180px]">
-        <Select onValueChange={(value) => setValue('classId', value)}>
+        <Select onValueChange={(value) => setValue('classId', value === 'all' ? '' : value)}>
           <SelectTrigger>
             <SelectValue placeholder="All classes" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All classes</SelectItem>
+            <SelectItem value="all">All classes</SelectItem>
             {classes?.map((cls) => (
               <SelectItem key={cls.id} value={cls.id}>
                 {cls.name}
@@ -62,12 +62,12 @@ export function AttendanceFilters({ onFilter }: AttendanceFiltersProps) {
       </FormField>
 
       <FormField label="Status" className="w-[150px]">
-        <Select onValueChange={(value) => setValue('status', value as 'present' | 'absent' | 'late')}>
+        <Select onValueChange={(value) => setValue('status', value === 'all' ? undefined : value as 'present' | 'absent' | 'late')}>
           <SelectTrigger>
             <SelectValue placeholder="All" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All</SelectItem>
+            <SelectItem value="all">All</SelectItem>
             <SelectItem value="present">Present</SelectItem>
             <SelectItem value="absent">Absent</SelectItem>
             <SelectItem value="late">Late</SelectItem>
