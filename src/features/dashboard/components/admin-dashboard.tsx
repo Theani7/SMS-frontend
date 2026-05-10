@@ -1,6 +1,6 @@
 import { useAdminStats } from '../hooks/use-dashboard-stats';
-import { StatCard } from '../../../shared/components/data-display/stat-card';
-import { Users, GraduationCap, BookOpen, ClipboardCheck, DollarSign, Activity } from 'lucide-react';
+import { MetricCard } from '../../../shared/components/data-display/metric-card';
+import { DollarSign, Activity } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../../shared/components/ui/card';
 import { formatDate } from '../../../shared/lib/utils';
 
@@ -20,30 +20,26 @@ export function AdminDashboard() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard
+        <MetricCard
           title="Students"
           value={stats?.totalStudents || 0}
-          icon={Users}
           description="Total enrolled"
           trend={{ value: 12, positive: true }}
         />
-        <StatCard
+        <MetricCard
           title="Teachers"
           value={stats?.totalTeachers || 0}
-          icon={GraduationCap}
           description="Active staff"
           trend={{ value: 2, positive: true }}
         />
-        <StatCard
+        <MetricCard
           title="Classes"
           value={stats?.totalClasses || 0}
-          icon={BookOpen}
           description="Active groups"
         />
-        <StatCard
+        <MetricCard
           title="Attendance"
           value={`${stats?.todayAttendance || 0}%`}
-          icon={ClipboardCheck}
           description="Avg. today"
           trend={{ value: 3, positive: false }}
         />
