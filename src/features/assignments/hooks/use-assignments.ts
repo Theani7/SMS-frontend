@@ -53,6 +53,10 @@ export function useAssignments() {
     queryFn: async () => {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 500));
+      // Simulate occasional errors for testing
+      if (Math.random() < 0) {
+        throw new Error('Failed to fetch assignments');
+      }
       return MOCK_ASSIGNMENTS;
     },
   });
