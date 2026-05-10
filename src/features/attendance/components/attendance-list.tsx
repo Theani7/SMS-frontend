@@ -8,7 +8,11 @@ import { AttendanceFilters } from './attendance-filters';
 import { formatDate, cn } from '../../../shared/lib/utils';
 import type { AttendanceFilters as Filters } from '../types/attendance';
 
-export function AttendanceList() {
+interface AttendanceListProps {
+  showChildColumn?: boolean;
+}
+
+export function AttendanceList({ showChildColumn = false }: AttendanceListProps) {
   const [filters, setFilters] = useState<Filters>({});
   const { data: attendance, isLoading, isError, refetch } = useAttendance(filters);
 
@@ -53,6 +57,9 @@ export function AttendanceList() {
           <Table>
             <TableHeader className="bg-slate-50/50 dark:bg-slate-900/50">
               <TableRow className="border-slate-100 dark:border-slate-900 hover:bg-transparent">
+                {showChildColumn && (
+                  <TableHead className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-6">Child</TableHead>
+                )}
                 <TableHead className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-6">Class / Subject</TableHead>
                 <TableHead className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-6">Date</TableHead>
                 <TableHead className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-6 text-center">Status</TableHead>
@@ -62,6 +69,11 @@ export function AttendanceList() {
             <TableBody>
               {attendance?.map((record) => (
                 <TableRow key={record.id} className="border-slate-50 dark:border-slate-900 hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors">
+                  {showChildColumn && (
+                    <TableCell className="px-6 py-4">
+                      <p className="text-xs font-bold text-slate-900 dark:text-slate-100">{(record as { studentName?: string }).studentName || 'Unknown'}</p>
+                    </TableCell>
+                  )}
                   <TableCell className="px-6 py-4">
                     <p className="text-xs font-bold text-slate-900 dark:text-slate-100">{record.className}</p>
                     <p className="text-[10px] font-medium text-slate-500">Scheduled Session</p>
