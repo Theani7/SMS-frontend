@@ -1,4 +1,6 @@
-import { PageContainer } from '../../shared/components/layout/page-container';
+import { StudentShell } from '../../shared/components/student/student-shell';
+import { useUrgencySignals } from '../../shared/hooks/use-urgency-signals';
+import { useModulePreview, type ModulePreview } from '../../shared/hooks/use-module-preview';
 import { FeeList } from '../../features/fees/components/fee-list';
 import { FeeProgress } from '../../features/fees/components/fee-progress';
 import { DashboardGrid } from '../../shared/components/layout/dashboard-grid';
@@ -6,6 +8,8 @@ import { useFees } from '../../features/fees/hooks/use-fees';
 import { useMemo } from 'react';
 
 export function FeesPage() {
+  const urgencyItems = useUrgencySignals();
+  const preview: ModulePreview | null = useModulePreview('announcements');
   const { data: fees, isLoading } = useFees();
 
   const stats = useMemo(() => {
@@ -16,11 +20,17 @@ export function FeesPage() {
   }, [fees]);
 
   return (
-    <PageContainer
+    <StudentShell
       title="Finances"
-      description="Track your tuition payments, lab fees, and itemized transaction history."
-      withMesh={true}
+      breadcrumbs={[{ label: 'Dashboard', href: '/' }, { label: 'Finances' }]}
+      urgencyItems={urgencyItems}
     >
+      {preview && (
+        <div className="mb-4 flex items-center gap-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 px-4 py-2 text-sm">
+          <span className="text-blue-600 dark:text-blue-400">📢</span>
+          <span className="font-medium text-blue-700 dark:text-blue-300">{preview.label}</span>
+        </div>
+      )}
       {!isLoading && (
         <DashboardGrid sidebar={<FeeProgress totalFees={stats.total + 1200} paidFees={stats.paid} nextDueDate="2026-05-15" />}>
           <FeeList />
@@ -36,6 +46,6 @@ export function FeesPage() {
           </div>
         </div>
       )}
-    </PageContainer>
+    </StudentShell>
   );
 }
