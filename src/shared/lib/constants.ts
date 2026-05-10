@@ -10,6 +10,7 @@ export const ROUTES = {
   FEES: '/fees',
   ASSIGNMENTS: '/assignments',
   PERFORMANCE: '/performance',
+  CHILDREN: '/children',
   TIMETABLE: '/timetable',
   ANNOUNCEMENTS: '/announcements',
 } as const;

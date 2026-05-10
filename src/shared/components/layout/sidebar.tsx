@@ -42,6 +42,10 @@ const operationsNavigation = [
   { name: 'Announcements', href: ROUTES.ANNOUNCEMENTS, icon: Bell, roles: ['student'] },
 ];
 
+const parentNavigation = [
+  { name: 'Children', href: ROUTES.CHILDREN, icon: Users, roles: ['parent'] },
+];
+
 interface NavItemType {
   name: string;
   href: string;
@@ -94,13 +98,13 @@ interface SectionNavProps {
   items: NavItemType[];
   title: string;
   isCollapsed: boolean;
-  location: string;
+  pathname: string;
   onItemClick?: () => void;
   hidden?: boolean;
 }
 
-function SectionNav({ items, title, isCollapsed, location, onItemClick, hidden }: SectionNavProps) {
-  const filteredItems = items; // Filter by role handled at parent level
+function SectionNav({ items, title, isCollapsed, pathname, onItemClick, hidden }: SectionNavProps) {
+  const filteredItems = items;
 
   if (hidden) return null;
 
@@ -119,7 +123,7 @@ function SectionNav({ items, title, isCollapsed, location, onItemClick, hidden }
           <NavItem
             key={item.name}
             item={item}
-            isActive={location === item.href || location.startsWith(`${item.href}/`)}
+            isActive={pathname === item.href || pathname.startsWith(`${item.href}/`)}
             collapsed={isCollapsed}
             onClick={onItemClick}
           />
@@ -136,16 +140,25 @@ export function Sidebar() {
   const sidebarCollapsed = useUIStore((state) => state.sidebarCollapsed);
   const user = useAuthStore((state) => state.user);
   const isStudent = user?.role === 'student';
+  const isParent = user?.role === 'parent';
 
-  const allNavItems = [...mainNavigation, ...academicsNavigation, ...managementNavigation, ...operationsNavigation];
+  const allNavItems = [...mainNavigation, ...academicsNavigation, ...managementNavigation, ...operationsNavigation, ...parentNavigation];
   const filteredNavItems = allNavItems.filter((item) => user?.role && item.roles.includes(user.role));
 
   // Student obligation-first ordering: Dashboard, Assignments, Timetable, Performance, Attendance, Fees, Announcements
   const studentOrder = [ROUTES.DASHBOARD, ROUTES.ASSIGNMENTS, ROUTES.TIMETABLE, ROUTES.PERFORMANCE, ROUTES.ATTENDANCE, ROUTES.FEES, ROUTES.ANNOUNCEMENTS];
+  // Parent ordering: Dashboard, Children, Attendance, Fees
+  const parentOrder = [ROUTES.DASHBOARD, ROUTES.CHILDREN, ROUTES.ATTENDANCE, ROUTES.FEES];
   const sortedNavItems = isStudent
     ? [...filteredNavItems].sort((a, b) => {
         const aIdx = studentOrder.findIndex((r) => r === a.href);
         const bIdx = studentOrder.findIndex((r) => r === b.href);
+        return aIdx - bIdx;
+      })
+    : isParent
+    ? [...filteredNavItems].sort((a, b) => {
+        const aIdx = parentOrder.findIndex((r) => r === a.href);
+        const bIdx = parentOrder.findIndex((r) => r === b.href);
         return aIdx - bIdx;
       })
     : filteredNavItems;
@@ -154,6 +167,7 @@ export function Sidebar() {
   const academicItems = sortedNavItems.filter((item) => academicsNavigation.some((m) => m.name === item.name));
   const managementItems = sortedNavItems.filter((item) => managementNavigation.some((m) => m.name === item.name));
   const operationsItems = sortedNavItems.filter((item) => operationsNavigation.some((m) => m.name === item.name));
+  const parentItems = sortedNavItems.filter((item) => parentNavigation.some((m) => m.name === item.name));
 
   // Get initials for avatar fallback
   const getInitials = (name: string) => {
@@ -219,18 +233,53 @@ export function Sidebar() {
           </div>
         )}
 
-        <nav className="flex-1 overflow-y-auto px-3 space-y-4 scrollbar-none">
-          {mainItems.length > 0 && (
-            <SectionNav items={mainItems} title="Overview" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} hidden={isStudent} />
-          )}
-          {academicItems.length > 0 && (
-            <SectionNav items={academicItems} title="Academics" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} hidden={isStudent} />
-          )}
-          {managementItems.length > 0 && (
-            <SectionNav items={managementItems} title="Management" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} hidden={isStudent} />
-          )}
-          {operationsItems.length > 0 && (
-            <SectionNav items={operationsItems} title="Operations" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} hidden={isStudent} />
+        {/* Parent identity section */}
+        {isParent && user && !sidebarCollapsed && (
+          <div className="flex items-center gap-2.5 px-4 py-2 mb-2 mx-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/30">
+            <Avatar className="h-8 w-8">
+              <AvatarFallback className="bg-emerald-100 text-emerald-700 text-xs font-semibold">
+                {getInitials(user.name)}
+              </AvatarFallback>
+            </Avatar>
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate">
+              {user.name}
+            </span>
+          </div>
+        )}
+
+        <nav className="flex-1 overflow-y-auto px-3 scrollbar-none">
+          {/* Student: flat nav, no sections */}
+          {isStudent ? (
+            <div className="space-y-0.5">
+              {sortedNavItems.map((item) => (
+                <NavItem
+                  key={item.name}
+                  item={item}
+                  isActive={location.pathname === item.href || location.pathname.startsWith(`${item.href}/`)}
+                  collapsed={sidebarCollapsed}
+                  onClick={() => setSidebarOpen(false)}
+                />
+              ))}
+            </div>
+          ) : (
+            /* Admin/Teacher/Parent: grouped sections */
+            <div className="space-y-4">
+              {mainItems.length > 0 && (
+                <SectionNav items={mainItems} title="Overview" isCollapsed={sidebarCollapsed} pathname={location.pathname} onItemClick={() => setSidebarOpen(false)} />
+              )}
+              {parentItems.length > 0 && (
+                <SectionNav items={parentItems} title="My Children" isCollapsed={sidebarCollapsed} pathname={location.pathname} onItemClick={() => setSidebarOpen(false)} />
+              )}
+              {academicItems.length > 0 && (
+                <SectionNav items={academicItems} title="Academics" isCollapsed={sidebarCollapsed} pathname={location.pathname} onItemClick={() => setSidebarOpen(false)} />
+              )}
+              {managementItems.length > 0 && (
+                <SectionNav items={managementItems} title="Management" isCollapsed={sidebarCollapsed} pathname={location.pathname} onItemClick={() => setSidebarOpen(false)} />
+              )}
+              {operationsItems.length > 0 && (
+                <SectionNav items={operationsItems} title="Operations" isCollapsed={sidebarCollapsed} pathname={location.pathname} onItemClick={() => setSidebarOpen(false)} />
+              )}
+            </div>
           )}
         </nav>
 
