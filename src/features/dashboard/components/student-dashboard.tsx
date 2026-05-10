@@ -1,87 +1,85 @@
-import { useStudentStats } from '../hooks/use-dashboard-stats';
-import { StatCard } from '../../../shared/components/data-display/stat-card';
-import { BookOpen, Clock, Calendar } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../../shared/components/ui/card';
-import { Badge } from '../../../shared/components/ui/badge';
+import { useAuthStore } from '../../../shared/store/auth-store';
+import { UrgencyRibbon } from './widgets/urgency-ribbon';
+import { NextBestAction } from './widgets/next-best-action';
+import { TimelineSchedule } from './widgets/timeline-schedule';
+import { AnnouncementsList } from './widgets/announcements-list';
+import { QuickFees } from './widgets/quick-fees';
+import { DashboardGrid } from '../../../shared/components/layout/dashboard-grid';
 
 export function StudentDashboard() {
-  const { data: stats, isLoading } = useStudentStats();
-
-  if (isLoading) {
-    return <div className="animate-pulse space-y-4">
-      <div className="grid gap-4 md:grid-cols-2">
-        {[...Array(2)].map((_, i) => (
-          <div key={i} className="h-32 bg-muted rounded-lg" />
-        ))}
-      </div>
-    </div>;
-  }
+  const user = useAuthStore((state) => state.user);
+  const firstName = user?.name.split(' ')[0] || 'Alex';
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2">
-        <StatCard
-          title="Classes"
-          value={stats?.myClasses || 0}
-          icon={BookOpen}
-          description="Scheduled for today"
-        />
-        <Card className="border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-          <div className="absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 bg-indigo-500/10 rounded-full blur-2xl" />
-          <CardHeader className="pb-2">
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Next Class</span>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {stats?.nextClass ? (
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">{stats.nextClass.subject}</p>
-                  <p className="text-xs text-slate-500 font-medium italic mt-0.5">
-                    {stats.nextClass.className} • <span className="text-indigo-600 dark:text-indigo-400 font-bold">{stats.nextClass.time}</span>
-                  </p>
-                </div>
-                <div className="h-10 w-10 rounded-full bg-slate-50 dark:bg-slate-800 border flex items-center justify-center">
-                  <BookOpen className="h-5 w-5 text-slate-400" />
-                </div>
-              </div>
-            ) : (
-              <p className="text-sm text-slate-500 font-medium">No more classes today. Time for homework! 📚</p>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
+      {/* Header */}
+      <header className="flex flex-col gap-1">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+          Good morning, {firstName}.
+        </h1>
+        <p className="text-[13px] text-slate-500 dark:text-slate-400 font-medium">
+          You have 2 assignments due today and your first class starts in 45m.
+        </p>
+      </header>
 
-      <Card className="border-slate-200 dark:border-slate-800 shadow-sm">
-        <CardHeader className="pb-4">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center">
-              <Calendar className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
-            </div>
-            <div>
-              <CardTitle>Upcoming Events</CardTitle>
-              <CardDescription>Don&apos;t miss these important dates</CardDescription>
-            </div>
+      {/* Main Grid Layout */}
+      <DashboardGrid
+        sidebar={
+          <div className="space-y-6">
+            <TimelineSchedule />
+            <AnnouncementsList />
+            <QuickFees />
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {stats?.upcomingEvents.map((event) => (
-              <div key={event.id} className="flex items-center justify-between p-4 border rounded-xl border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
-                <div className="space-y-1">
-                  <p className="text-sm font-bold text-slate-900 dark:text-white leading-none">{event.title}</p>
-                  <p className="text-[11px] text-slate-500 font-medium italic">{event.date}</p>
-                </div>
-                <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-tight px-2 bg-white dark:bg-slate-950">
-                  {event.type}
-                </Badge>
+        }
+      >
+        <div className="space-y-8">
+          <UrgencyRibbon />
+          <NextBestAction />
+          
+          {/* Performance Summary Widget Placeholder */}
+          <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="p-5 rounded-2xl border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 shadow-sm">
+              <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-4">
+                Attendance Pulse
+              </h2>
+              <div className="flex items-end gap-3">
+                <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">96.4%</div>
+                <div className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 mb-1.5">+1.2% this month</div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+              <div className="flex gap-1.5 mt-4">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="h-6 w-full rounded bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center">
+                    <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]" />
+                  </div>
+                ))}
+                <div className="h-6 w-full rounded bg-rose-50 dark:bg-rose-900/20 flex items-center justify-center">
+                  <div className="h-2.5 w-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.3)]" />
+                </div>
+              </div>
+            </div>
+
+            <div className="p-5 rounded-2xl border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 shadow-sm">
+              <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-4">
+                Grade Average
+              </h2>
+              <div className="flex items-end gap-3">
+                <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">A-</div>
+                <div className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 mb-1.5">Top 15% of Class</div>
+              </div>
+              <div className="mt-4 flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  {['A', 'B+', 'A-'].map((grade, i) => (
+                    <div key={i} className="h-7 w-7 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-white dark:border-slate-900 flex items-center justify-center text-[10px] font-bold text-slate-600 dark:text-slate-400">
+                      {grade}
+                    </div>
+                  ))}
+                </div>
+                <span className="text-[11px] text-slate-500 dark:text-slate-500 font-medium">Last 3 assessments</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </DashboardGrid>
     </div>
   );
 }
