@@ -159,3 +159,19 @@ export async function deleteFee(id: string): Promise<void> {
 
   fees.splice(index, 1);
 }
+
+export async function payFee(): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+
+  // Mark all pending or overdue fees as paid for demo purposes
+  fees = fees.map(f => {
+    if (f.status === 'pending' || f.status === 'overdue') {
+      return {
+        ...f,
+        status: 'paid',
+        paidDate: new Date().toISOString().split('T')[0]
+      };
+    }
+    return f;
+  });
+}

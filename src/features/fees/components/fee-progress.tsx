@@ -1,5 +1,6 @@
 import { Button } from '../../../shared/components/ui/button';
-import { CreditCard, ArrowUpRight, Clock } from 'lucide-react';
+import { CreditCard, ArrowUpRight, Clock, Loader2 } from 'lucide-react';
+import { usePayFee } from '../hooks/use-fees';
 
 interface FeeProgressProps {
   totalFees: number;
@@ -10,6 +11,7 @@ interface FeeProgressProps {
 export function FeeProgress({ totalFees, paidFees, nextDueDate }: FeeProgressProps) {
   const percentage = Math.round((paidFees / totalFees) * 100);
   const outstanding = totalFees - paidFees;
+  const { mutate: pay, isPending } = usePayFee();
 
   return (
     <div className="space-y-6">
@@ -35,8 +37,16 @@ export function FeeProgress({ totalFees, paidFees, nextDueDate }: FeeProgressPro
             <h2 className="text-4xl font-black tracking-tight">${outstanding.toLocaleString()}.00</h2>
           </div>
 
-          <Button className="w-full h-11 bg-white text-indigo-600 hover:bg-slate-50 font-black text-xs uppercase tracking-widest rounded-xl shadow-button btn-lift border-0">
-            Pay Now <ArrowUpRight className="ml-2 h-4 w-4" />
+          <Button 
+            onClick={() => pay()}
+            disabled={isPending || outstanding <= 0}
+            className="w-full h-11 bg-white text-indigo-600 hover:bg-slate-50 font-black text-xs uppercase tracking-widest rounded-xl shadow-button btn-lift border-0"
+          >
+            {isPending ? (
+              <>Processing... <Loader2 className="ml-2 h-4 w-4 animate-spin" /></>
+            ) : (
+              <>Pay Now <ArrowUpRight className="ml-2 h-4 w-4" /></>
+            )}
           </Button>
         </div>
       </div>

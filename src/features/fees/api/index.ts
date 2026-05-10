@@ -1,1 +1,1 @@
-export { getFees, getFee, createFee, updateFee, deleteFee } from './mock';
+export { getFees, getFee, createFee, updateFee, deleteFee, payFee } from './mock';

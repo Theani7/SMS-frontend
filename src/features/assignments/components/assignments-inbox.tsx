@@ -1,23 +1,49 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useAssignments } from '../hooks/use-assignments';
 import { Assignment, AssignmentStatus } from '../types';
 import { cn } from '../../../shared/lib/utils';
-import { CheckCircle2, Circle, MoreHorizontal, Filter } from 'lucide-react';
+import { CheckCircle2, Circle, MoreHorizontal, Filter, Loader2 } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/button';
 import { Badge } from '../../../shared/components/ui/badge';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../../../shared/components/ui/dropdown-menu';
 
 export function AssignmentsInbox() {
-  const { data: assignments, isLoading } = useAssignments();
+  const { data: assignments, isLoading, submitAssignment } = useAssignments();
   const [activeTab, setActiveTab] = useState<AssignmentStatus>('todo');
+  const [selectedSubject, setSelectedSubject] = useState<string>('all');
+  const [submittingId, setSubmittingId] = useState<string | null>(null);
 
-  const filteredAssignments = assignments?.filter(a => {
-    if (activeTab === 'todo') return a.status === 'todo' || a.status === 'in-progress';
-    return a.status === activeTab;
-  }) || [];
+  const subjects = useMemo(() => {
+    if (!assignments) return [];
+    const uniqueSubjects = Array.from(new Set(assignments.map(a => a.subject)));
+    return ['all', ...uniqueSubjects];
+  }, [assignments]);
+
+  const filteredAssignments = (assignments || []).filter(a => {
+    const statusMatch = activeTab === 'todo' 
+      ? (a.status === 'todo' || a.status === 'in-progress')
+      : a.status === activeTab;
+    
+    const subjectMatch = selectedSubject === 'all' || a.subject === selectedSubject;
+    
+    return statusMatch && subjectMatch;
+  });
 
   // Grouping logic (simplified for mockup)
   const overdue = filteredAssignments.filter(a => new Date(a.dueDate) < new Date() && a.status !== 'submitted');
   const upcoming = filteredAssignments.filter(a => new Date(a.dueDate) >= new Date() || a.status === 'submitted');
+
+  const handleSubmit = (id: string) => {
+    setSubmittingId(id);
+    submitAssignment(id, {
+      onSettled: () => setSubmittingId(null)
+    });
+  };
 
   if (isLoading) {
     return <div className="animate-pulse space-y-4">
@@ -49,10 +75,28 @@ export function AssignmentsInbox() {
             </button>
           ))}
         </div>
-        <Button variant="outline" size="sm" className="h-9 gap-2 text-xs font-semibold">
-          <Filter className="h-3.5 w-3.5" />
-          All Subjects
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="h-9 gap-2 text-xs font-semibold">
+              <Filter className="h-3.5 w-3.5" />
+              {selectedSubject === 'all' ? 'All Subjects' : selectedSubject}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            {subjects.map((subject) => (
+              <DropdownMenuItem
+                key={subject}
+                onClick={() => setSelectedSubject(subject)}
+                className={cn(
+                  "text-xs font-medium capitalize",
+                  selectedSubject === subject && "bg-slate-100 dark:bg-slate-800"
+                )}
+              >
+                {subject === 'all' ? 'All Subjects' : subject}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <div className="rounded-xl border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-950 shadow-soft overflow-hidden">
@@ -62,7 +106,12 @@ export function AssignmentsInbox() {
               <span className="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider">Overdue</span>
             </div>
             {overdue.map(assignment => (
-              <AssignmentRow key={assignment.id} assignment={assignment} />
+              <AssignmentRow 
+                key={assignment.id} 
+                assignment={assignment} 
+                isSubmitting={submittingId === assignment.id}
+                onSubmit={() => handleSubmit(assignment.id)}
+              />
             ))}
           </>
         )}
@@ -73,14 +122,25 @@ export function AssignmentsInbox() {
           </span>
         </div>
         {upcoming.map(assignment => (
-          <AssignmentRow key={assignment.id} assignment={assignment} />
+          <AssignmentRow 
+            key={assignment.id} 
+            assignment={assignment} 
+            isSubmitting={submittingId === assignment.id}
+            onSubmit={() => handleSubmit(assignment.id)}
+          />
         ))}
       </div>
     </div>
   );
 }
 
-function AssignmentRow({ assignment }: { assignment: Assignment }) {
+interface AssignmentRowProps {
+  assignment: Assignment;
+  isSubmitting: boolean;
+  onSubmit: () => void;
+}
+
+function AssignmentRow({ assignment, isSubmitting, onSubmit }: AssignmentRowProps) {
   const isOverdue = new Date(assignment.dueDate) < new Date() && assignment.status !== 'submitted';
 
   return (
@@ -88,8 +148,10 @@ function AssignmentRow({ assignment }: { assignment: Assignment }) {
       <div className="h-5 w-5 flex-shrink-0 flex items-center justify-center">
         {assignment.status === 'submitted' ? (
           <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+        ) : isSubmitting ? (
+          <Loader2 className="h-4 w-4 animate-spin text-indigo-500" />
         ) : (
-          <Circle className="h-5 w-5 text-slate-300 group-hover:text-indigo-400 transition-colors cursor-pointer" />
+          <Circle className="h-5 w-5 text-slate-300 group-hover:text-indigo-400 transition-colors cursor-pointer" onClick={onSubmit} />
         )}
       </div>
       
@@ -138,8 +200,22 @@ function AssignmentRow({ assignment }: { assignment: Assignment }) {
         <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 opacity-0 group-hover:opacity-100 transition-all">
           <MoreHorizontal className="h-4 w-4" />
         </Button>
-        <Button size="sm" variant="outline" className="hidden sm:flex h-8 px-3 text-[11px] font-bold opacity-0 group-hover:opacity-100 transition-all border-slate-200 dark:border-slate-700 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400">
-          {assignment.status === 'in-progress' ? 'Resume' : assignment.status === 'submitted' ? 'View' : 'Open'}
+        <Button 
+          size="sm" 
+          variant="outline" 
+          disabled={isSubmitting}
+          onClick={assignment.status !== 'submitted' ? onSubmit : undefined}
+          className="hidden sm:flex h-8 px-3 text-[11px] font-bold opacity-0 group-hover:opacity-100 transition-all border-slate-200 dark:border-slate-700 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 min-w-[70px]"
+        >
+          {isSubmitting ? (
+            <Loader2 className="h-3 w-3 animate-spin" />
+          ) : assignment.status === 'in-progress' ? (
+            'Resume'
+          ) : assignment.status === 'submitted' ? (
+            'View'
+          ) : (
+            'Open'
+          )}
         </Button>
       </div>
     </div>

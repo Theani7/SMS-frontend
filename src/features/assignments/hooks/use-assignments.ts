@@ -1,5 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Assignment } from '../types';
+import { useNotificationStore } from '../../../shared/store/notification-store';
 
 const MOCK_ASSIGNMENTS: Assignment[] = [
   {
@@ -43,7 +45,10 @@ const MOCK_ASSIGNMENTS: Assignment[] = [
 ];
 
 export function useAssignments() {
-  return useQuery({
+  const queryClient = useQueryClient();
+  const { addNotification } = useNotificationStore();
+
+  const assignmentsQuery = useQuery({
     queryKey: ['assignments'],
     queryFn: async () => {
       // Simulate API delay
@@ -51,4 +56,45 @@ export function useAssignments() {
       return MOCK_ASSIGNMENTS;
     },
   });
+
+  const criticalDeadlines = useMemo(() => {
+    if (!assignmentsQuery.data) return [];
+    
+    const now = new Date();
+    const threeHoursFromNow = new Date(now.getTime() + 3 * 60 * 60 * 1000);
+
+    return assignmentsQuery.data.filter(assignment => {
+      if (assignment.status === 'submitted') return false;
+      
+      const dueDate = new Date(assignment.dueDate);
+      return dueDate <= threeHoursFromNow;
+    });
+  }, [assignmentsQuery.data]);
+
+  const submitMutation = useMutation({
+    mutationFn: async (id: string) => {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return id;
+    },
+    onSuccess: (id) => {
+      // In a real app, we would update the mock database or invalidate queries
+      // For this mock, we'll just show the notification
+      queryClient.setQueryData(['assignments'], (old: Assignment[] | undefined) => {
+        if (!old) return old;
+        return old.map(a => a.id === id ? { ...a, status: 'submitted' as const } : a);
+      });
+      addNotification('success', 'Assignment submitted successfully');
+    },
+    onError: () => {
+      addNotification('error', 'Failed to submit assignment');
+    }
+  });
+
+  return {
+    ...assignmentsQuery,
+    criticalDeadlines,
+    submitAssignment: submitMutation.mutate,
+    isSubmitting: submitMutation.isPending,
+  };
 }

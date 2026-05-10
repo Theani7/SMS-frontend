@@ -2,6 +2,9 @@ import { useMemo } from 'react';
 import { useAnnouncements } from '../../announcements/hooks/use-announcements';
 import { useAttendanceInsights } from '../../attendance/hooks/use-attendance-insights';
 import { useFees } from '../../fees/hooks/use-fees';
+import { Announcement } from '../../announcements/types';
+import { SubjectAttendance } from '../../attendance/types/attendance';
+import { Fee } from '../../fees/types/fee';
 
 export interface UrgencySignal {
   id: string;
@@ -22,8 +25,8 @@ export function useUrgencySignals() {
 
     // 1. Unread Urgent Announcements
     announcements
-      .filter((a: any) => a.category === 'urgent' && !a.isRead)
-      .forEach((a: any) => {
+      ?.filter((a: Announcement) => a.category === 'urgent' && !a.isRead)
+      .forEach((a: Announcement) => {
         list.push({
           id: `ann-${a.id}`,
           type: 'urgent',
@@ -35,36 +38,32 @@ export function useUrgencySignals() {
       });
 
     // 2. At-Risk Attendance
-    if (attendance) {
-      attendance.subjectBreakdown
-        .filter((s: any) => s.status === 'critical' || s.status === 'warning')
-        .forEach((s: any) => {
-          list.push({
-            id: `att-${s.subject}`,
-            type: 'warning',
-            title: 'Attendance Alert',
-            description: `${s.subject} is at ${s.percentage}%`,
-            actionLabel: 'View Details',
-            path: '/attendance',
-          });
+    attendance?.subjectBreakdown
+      ?.filter((s: SubjectAttendance) => s.status === 'critical' || s.status === 'warning')
+      .forEach((s: SubjectAttendance) => {
+        list.push({
+          id: `att-${s.subject}`,
+          type: 'warning',
+          title: 'Attendance Alert',
+          description: `${s.subject} is at ${s.percentage}%`,
+          actionLabel: 'View Details',
+          path: '/attendance',
         });
-    }
+      });
 
     // 3. Overdue Fees
-    if (fees) {
-      fees
-        .filter((f: any) => f.status === 'overdue')
-        .forEach((f: any) => {
-          list.push({
-            id: `fee-${f.id}`,
-            type: 'urgent',
-            title: 'Overdue Fee',
-            description: `${f.feeType}: $${f.amount}`,
-            actionLabel: 'Pay Now',
-            path: '/fees',
-          });
+    fees
+      ?.filter((f: Fee) => f.status === 'overdue')
+      .forEach((f: Fee) => {
+        list.push({
+          id: `fee-${f.id}`,
+          type: 'urgent',
+          title: 'Overdue Fee',
+          description: `${f.feeType}: $${f.amount}`,
+          actionLabel: 'Pay Now',
+          path: '/fees',
         });
-    }
+      });
 
     return list;
   }, [announcements, attendance, fees]);

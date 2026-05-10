@@ -62,3 +62,10 @@ export async function markAsRead(id: string): Promise<void> {
     announcement.isRead = true;
   }
 }
+
+export async function markAsUnread(id: string): Promise<void> {
+  const announcement = MOCK_ANNOUNCEMENTS.find(a => a.id === id);
+  if (announcement) {
+    announcement.isRead = false;
+  }
+}

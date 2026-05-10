@@ -13,12 +13,20 @@ import {
   CheckCircle2,
   AlertCircle,
   BookOpen,
-  Info
+  Info,
+  Loader2
 } from 'lucide-react';
 import { Input } from '../../../shared/components/ui/input';
 
 export function AnnouncementsInbox() {
-  const { announcements, isLoading, markAsRead } = useAnnouncements();
+  const { 
+    announcements, 
+    isLoading, 
+    markAsRead, 
+    markAsUnread,
+    isMarkingRead,
+    isMarkingUnread
+  } = useAnnouncements();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [filter, setFilter] = useState<AnnouncementCategory | 'all'>('all');
   const [search, setSearch] = useState('');
@@ -212,9 +220,31 @@ export function AnnouncementsInbox() {
             </div>
 
             <div className="p-6 border-t border-slate-50 dark:border-slate-900 bg-slate-50/30 dark:bg-slate-950/50 flex justify-end">
-              <Button variant="outline" className="text-xs font-bold gap-2 h-9 rounded-xl border-slate-200 dark:border-slate-800">
-                <CheckCircle2 className="h-4 w-4" />
-                Mark Unread
+              <Button 
+                variant="outline" 
+                className="text-xs font-bold gap-2 h-9 rounded-xl border-slate-200 dark:border-slate-800 min-w-[120px]"
+                disabled={isMarkingRead || isMarkingUnread}
+                onClick={() => {
+                  if (selectedAnnouncement.isRead) {
+                    markAsUnread(selectedAnnouncement.id);
+                  } else {
+                    markAsRead(selectedAnnouncement.id);
+                  }
+                }}
+              >
+                {isMarkingRead || isMarkingUnread ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : selectedAnnouncement.isRead ? (
+                  <>
+                    <Bell className="h-4 w-4" />
+                    Mark Unread
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 className="h-4 w-4" />
+                    Mark Read
+                  </>
+                )}
               </Button>
             </div>
           </div>

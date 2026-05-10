@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal Design - Section 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .bg-mesh {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+        }
+        .shadow-soft { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 1px 2px -1px rgba(0, 0, 0, 0.02); }
+        .shadow-button { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        .tracking-tight { letter-spacing: -0.025em; }
+    </style>
+</head>
+<body class="bg-mesh p-8">
+    <div class="max-w-6xl mx-auto space-y-12">
+        <header>
+            <h1 class="text-3xl font-black text-slate-900 tracking-tight">Module Design: High-Density Workspace</h1>
+            <p class="text-slate-500 font-medium">Visualizing the "Operational Stage" for Announcements, Attendance, and Fees.</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Announcements: Categorized Inbox -->
+            <section class="space-y-4">
+                <div class="flex items-center gap-2">
+                    <div class="h-6 w-1 bg-indigo-500 rounded-full"></div>
+                    <h2 class="text-lg font-bold text-slate-800">1. Announcements (Linear Style)</h2>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200/60 shadow-soft overflow-hidden">
+                    <div class="p-4 border-b border-slate-100 flex gap-2">
+                        <div class="px-3 py-1 bg-slate-100 rounded-lg text-[11px] font-bold text-slate-600 uppercase tracking-wider">All</div>
+                        <div class="px-3 py-1 bg-rose-50 rounded-lg text-[11px] font-bold text-rose-600 uppercase tracking-wider">Urgent (2)</div>
+                        <div class="px-3 py-1 bg-indigo-50 rounded-lg text-[11px] font-bold text-indigo-600 uppercase tracking-wider">Academic</div>
+                    </div>
+                    <div class="divide-y divide-slate-50">
+                        <div class="p-4 hover:bg-slate-50 transition-colors flex justify-between items-start gap-4">
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-rose-500"></span>
+                                    <h3 class="text-xs font-bold text-slate-900 leading-none">Final Exam Schedule Published</h3>
+                                </div>
+                                <p class="text-[11px] text-slate-500 line-clamp-1">The final examination schedule for the Spring 2026 semester is now available for download...</p>
+                            </div>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase whitespace-nowrap">2h ago</span>
+                        </div>
+                        <div class="p-4 hover:bg-slate-50 transition-colors flex justify-between items-start gap-4">
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-indigo-500"></span>
+                                    <h3 class="text-xs font-bold text-slate-900 leading-none">New Sports Facility Opening</h3>
+                                </div>
+                                <p class="text-[11px] text-slate-500 line-clamp-1">We are excited to announce the grand opening of our new indoor basketball court this Friday.</p>
+                            </div>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase whitespace-nowrap">Yesterday</span>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-slate-50/50 border-t border-slate-100">
+                        <p class="text-[10px] text-center font-bold text-slate-400 uppercase tracking-widest">End of Feed</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Attendance: Insight-First -->
+            <section class="space-y-4">
+                <div class="flex items-center gap-2">
+                    <div class="h-6 w-1 bg-emerald-500 rounded-full"></div>
+                    <h2 class="text-lg font-bold text-slate-800">2. Attendance (Monthly Heatmap)</h2>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200/60 shadow-soft p-5 space-y-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Overall Presence</p>
+                            <p class="text-2xl font-black text-slate-900 tracking-tighter">94.2%</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Status</p>
+                            <span class="px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded text-[10px] font-bold uppercase tracking-wider border border-emerald-100">Excellent</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[11px] font-bold text-slate-600">May 2026</span>
+                            <div class="flex gap-1">
+                                <div class="h-2 w-2 rounded-sm bg-slate-100"></div>
+                                <div class="h-2 w-2 rounded-sm bg-emerald-200"></div>
+                                <div class="h-2 w-2 rounded-sm bg-emerald-400"></div>
+                                <div class="h-2 w-2 rounded-sm bg-emerald-600"></div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-7 gap-1.5">
+                            <!-- Placeholder heatmap dots -->
+                            <div class="h-4 rounded bg-emerald-600"></div>
+                            <div class="h-4 rounded bg-emerald-600"></div>
+                            <div class="h-4 rounded bg-emerald-500"></div>
+                            <div class="h-4 rounded bg-emerald-600"></div>
+                            <div class="h-4 rounded bg-rose-400"></div> <!-- Absent -->
+                            <div class="h-4 rounded bg-slate-100"></div>
+                            <div class="h-4 rounded bg-slate-100"></div>
+                            
+                            <div class="h-4 rounded bg-emerald-600"></div>
+                            <div class="h-4 rounded bg-emerald-600"></div>
+                            <div class="h-4 rounded bg-amber-400"></div> <!-- Late -->
+                            <div class="h-4 rounded bg-emerald-600"></div>
+                            <div class="h-4 rounded bg-emerald-600"></div>
+                            <div class="h-4 rounded bg-slate-100"></div>
+                            <div class="h-4 rounded bg-slate-100"></div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-100">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-3">Subject Breakdown</p>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center text-[11px]">
+                                <span class="font-medium text-slate-700">Mathematics</span>
+                                <span class="font-bold text-rose-500">76% (At Risk)</span>
+                            </div>
+                            <div class="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-rose-500 w-[76%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fees: Financial Ledger -->
+            <section class="space-y-4 lg:col-span-2">
+                <div class="flex items-center gap-2">
+                    <div class="h-6 w-1 bg-amber-500 rounded-full"></div>
+                    <h2 class="text-lg font-bold text-slate-800">3. Fees (Itemized Ledger & Progress)</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="md:col-span-1 space-y-4">
+                        <div class="bg-indigo-600 rounded-2xl p-6 text-white shadow-lg">
+                            <p class="text-[10px] font-bold text-indigo-100 uppercase mb-1">Total Outstanding</p>
+                            <p class="text-3xl font-black tracking-tight mb-4">$1,240.00</p>
+                            <button class="w-full py-2.5 bg-white text-indigo-600 rounded-xl text-xs font-black shadow-button hover:bg-slate-50 transition-colors">
+                                Pay Now
+                            </button>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-slate-200/60 p-5">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-3">Payment Progress</p>
+                            <div class="flex items-center gap-4">
+                                <div class="relative h-16 w-16">
+                                    <svg class="h-full w-full" viewBox="0 0 36 36">
+                                        <path class="stroke-slate-100" stroke-width="3" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                        <path class="stroke-indigo-500" stroke-width="3" stroke-dasharray="75, 100" stroke-linecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    </svg>
+                                    <span class="absolute inset-0 flex items-center justify-center text-[11px] font-black text-slate-700">75%</span>
+                                </div>
+                                <div class="space-y-1">
+                                    <p class="text-xs font-bold text-slate-900">$3,720 Paid</p>
+                                    <p class="text-[10px] font-medium text-slate-500">Term 2 Tuition</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 bg-white rounded-2xl border border-slate-200/60 shadow-soft overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50/50 border-b border-slate-100">
+                                    <th class="px-5 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Item</th>
+                                    <th class="px-5 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Due Date</th>
+                                    <th class="px-5 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Amount</th>
+                                    <th class="px-5 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-50">
+                                <tr>
+                                    <td class="px-5 py-4">
+                                        <p class="text-xs font-bold text-slate-900">Term 2 Tuition Fee</p>
+                                        <p class="text-[10px] font-medium text-slate-500">Academic Year 2025/26</p>
+                                    </td>
+                                    <td class="px-5 py-4 text-xs font-medium text-slate-600">May 15, 2026</td>
+                                    <td class="px-5 py-4 text-xs font-bold text-slate-900">$1,200.00</td>
+                                    <td class="px-5 py-4">
+                                        <span class="px-2 py-0.5 bg-amber-50 text-amber-600 rounded text-[10px] font-bold uppercase border border-amber-100">Pending</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-5 py-4">
+                                        <p class="text-xs font-bold text-slate-900">Laboratory Materials</p>
+                                        <p class="text-[10px] font-medium text-slate-500">Physics Lab (Term 2)</p>
+                                    </td>
+                                    <td class="px-5 py-4 text-xs font-medium text-slate-600">May 10, 2026</td>
+                                    <td class="px-5 py-4 text-xs font-bold text-slate-900">$40.00</td>
+                                    <td class="px-5 py-4">
+                                        <span class="px-2 py-0.5 bg-rose-50 text-rose-600 rounded text-[10px] font-bold uppercase border border-rose-100">Overdue</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-5 py-4">
+                                        <p class="text-xs font-bold text-slate-900">Annual Library Pass</p>
+                                        <p class="text-[10px] font-medium text-slate-500">Digital + Physical access</p>
+                                    </td>
+                                    <td class="px-5 py-4 text-xs font-medium text-slate-600">Apr 01, 2026</td>
+                                    <td class="px-5 py-4 text-xs font-bold text-slate-900">$150.00</td>
+                                    <td class="px-5 py-4">
+                                        <span class="px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded text-[10px] font-bold uppercase border border-emerald-100">Paid</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
