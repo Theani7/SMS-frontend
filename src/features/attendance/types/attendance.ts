@@ -27,3 +27,19 @@ export interface ClassOption {
   name: string;
   teacherName: string;
 }
+
+export interface SubjectAttendance {
+  subject: string;
+  percentage: number;
+  totalClasses: number;
+  present: number;
+  status: 'excellent' | 'good' | 'warning' | 'critical';
+}
+
+export interface AttendanceInsights {
+  overallPercentage: number;
+  status: 'excellent' | 'good' | 'warning' | 'critical';
+  streak: number;
+  subjectBreakdown: SubjectAttendance[];
+  monthlyHeatmap: { date: string; status: 'present' | 'absent' | 'late' | 'none' }[];
+}

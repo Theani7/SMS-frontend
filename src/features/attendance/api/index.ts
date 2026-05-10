@@ -1,1 +1,1 @@
-export { getAttendanceList, markAttendance, getClassOptions } from './mock';
+export { getAttendanceList, markAttendance, getClassOptions, getAttendanceInsights } from './mock';
