@@ -123,7 +123,7 @@ export function AnnouncementsInbox() {
           {filteredAnnouncements.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-12 text-center">
               <Bell className="h-8 w-8 text-slate-200 dark:text-slate-800 mb-2" />
-              <p className="text-xs font-bold text-slate-400 uppercase">No announcements</p>
+              <p className="text-xs font-bold text-slate-400">You're all caught up — no new announcements.</p>
             </div>
           ) : (
             filteredAnnouncements.map((announcement) => (
