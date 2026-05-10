@@ -10,11 +10,22 @@ import type { AttendanceFilters as Filters } from '../types/attendance';
 
 interface AttendanceListProps {
   showChildColumn?: boolean;
+  attendance?: Array<{
+    id: string;
+    studentId: string;
+    studentName?: string;
+    date: string;
+    status: string;
+    className?: string;
+    remarks?: string;
+  }>;
 }
 
-export function AttendanceList({ showChildColumn = false }: AttendanceListProps) {
+export function AttendanceList({ showChildColumn = false, attendance: externalAttendance }: AttendanceListProps) {
   const [filters, setFilters] = useState<Filters>({});
-  const { data: attendance, isLoading, isError, refetch } = useAttendance(filters);
+  const { data: internalAttendance, isLoading, isError, refetch } = useAttendance(filters);
+
+  const data = externalAttendance ?? internalAttendance;
 
   const getStatusBadge = (status: 'present' | 'absent' | 'late') => {
     const variants = {
@@ -44,13 +55,13 @@ export function AttendanceList({ showChildColumn = false }: AttendanceListProps)
         </div>
       ) : isError ? (
         <ErrorCard
-          title="Couldn't load your attendance records"
+          title="Couldn't load your data records"
           onRetry={() => refetch()}
         />
-      ) : attendance?.length === 0 ? (
+      ) : data?.length === 0 ? (
         <EmptyState
-          title="No attendance records yet"
-          description="Try adjusting your filters or mark attendance for today"
+          title="No data records yet"
+          description="Try adjusting your filters or mark data for today"
         />
       ) : (
         <div className="border border-slate-200/60 dark:border-slate-800/60 rounded-2xl overflow-hidden bg-white dark:bg-slate-950 shadow-soft">
@@ -67,7 +78,7 @@ export function AttendanceList({ showChildColumn = false }: AttendanceListProps)
               </TableRow>
             </TableHeader>
             <TableBody>
-              {attendance?.map((record) => (
+              {data?.map((record) => (
                 <TableRow key={record.id} className="border-slate-50 dark:border-slate-900 hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors">
                   {showChildColumn && (
                     <TableCell className="px-6 py-4">
@@ -82,7 +93,7 @@ export function AttendanceList({ showChildColumn = false }: AttendanceListProps)
                     <p className="text-xs font-medium text-slate-600 dark:text-slate-400">{formatDate(record.date)}</p>
                   </TableCell>
                   <TableCell className="px-6 py-4 text-center">
-                    {getStatusBadge(record.status)}
+                    {getStatusBadge(record.status as 'present' | 'absent' | 'late')}
                   </TableCell>
                   <TableCell className="px-6 py-4">
                     <p className="text-xs text-slate-500 italic">{record.remarks || 'No remarks recorded'}</p>

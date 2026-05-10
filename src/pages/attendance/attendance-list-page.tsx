@@ -32,7 +32,7 @@ export function AttendancePage() {
               No attendance records found for your children.
             </div>
           ) : (
-            <AttendanceList showChildColumn={true} />
+            <AttendanceList showChildColumn={true} attendance={parentAttendance} />
           )}
         </div>
       </ParentShell>
