@@ -23,7 +23,7 @@ export function TimetableView() {
 
   const sortedSlots = useMemo(() => {
     if (!timetable) return [];
-    
+
     return timetable
       .filter(slot => slot.day === selectedDay)
       .sort((a, b) => a.startTime.localeCompare(b.startTime));
@@ -31,9 +31,13 @@ export function TimetableView() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64" aria-busy="true" aria-live="polite">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        <span className="sr-only">Loading timetable...</span>
+      <div className="animate-pulse space-y-4">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="relative pl-10">
+            <div className="absolute left-0 top-3 w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800" />
+            <div className="h-24 bg-slate-100 dark:bg-slate-800 rounded-xl" />
+          </div>
+        ))}
       </div>
     );
   }
