@@ -40,37 +40,39 @@ export function AttendancePulse() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col gap-2">
-          {/* Header row for days */}
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-10" /> {/* Spacer for class names */}
-            {DAYS.map(day => (
-              <div key={day} className="flex-1 text-center text-[10px] font-medium text-slate-500 uppercase tracking-tighter">
-                {day}
+        <div className="overflow-x-auto pb-2">
+          <div className="flex flex-col gap-2 min-w-[400px]">
+            {/* Header row for days */}
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-10" /> {/* Spacer for class names */}
+              {DAYS.map(day => (
+                <div key={day} className="flex-1 text-center text-[10px] font-medium text-slate-500 uppercase tracking-tighter">
+                  {day}
+                </div>
+              ))}
+            </div>
+
+            {/* Rows for classes */}
+            {pulseData.map((row) => (
+              <div key={row.className} className="flex items-center gap-2">
+                <div className="w-10 text-[11px] font-semibold text-slate-700 dark:text-slate-300 tracking-tight">
+                  {row.className}
+                </div>
+                <div className="flex-1 flex gap-1">
+                  {row.data.map((cell, idx) => (
+                    <div
+                      key={idx}
+                      className={cn(
+                        "flex-1 h-5 rounded-sm transition-all duration-200 hover:scale-110 cursor-help",
+                        getHealthColor(cell.percentage)
+                      )}
+                      title={`${row.className} - ${cell.day}: ${cell.percentage}%`}
+                    />
+                  ))}
+                </div>
               </div>
             ))}
           </div>
-
-          {/* Rows for classes */}
-          {pulseData.map((row) => (
-            <div key={row.className} className="flex items-center gap-2">
-              <div className="w-10 text-[11px] font-semibold text-slate-700 dark:text-slate-300 tracking-tight">
-                {row.className}
-              </div>
-              <div className="flex-1 flex gap-1">
-                {row.data.map((cell, idx) => (
-                  <div
-                    key={idx}
-                    className={cn(
-                      "flex-1 h-5 rounded-sm transition-all duration-200 hover:scale-110 cursor-help",
-                      getHealthColor(cell.percentage)
-                    )}
-                    title={`${row.className} - ${cell.day}: ${cell.percentage}%`}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
         </div>
         
         {/* Legend */}
