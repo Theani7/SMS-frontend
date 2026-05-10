@@ -75,11 +75,11 @@ export function FeeForm({ fee, onSuccess }: FeeFormProps) {
   };
 
   return (
-    <Card className="shadow-soft border-slate-100 max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle>{isEditing ? 'Edit Fee' : 'Add New Fee'}</CardTitle>
+    <Card className="shadow-soft border-slate-200/60 dark:border-slate-800/60 rounded-xl bg-white dark:bg-slate-950 max-w-2xl mx-auto">
+      <CardHeader className="border-b border-slate-100/60 dark:border-slate-800/60 pb-4">
+        <CardTitle className="text-lg font-semibold">{isEditing ? 'Edit Fee' : 'Add New Fee'}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <FormField label="Student" error={errors.studentId?.message} required>
             <Select onValueChange={(value) => setValue('studentId', value)}>
@@ -128,7 +128,7 @@ export function FeeForm({ fee, onSuccess }: FeeFormProps) {
           </FormField>
 
           <div className="flex gap-4">
-            <Button type="submit" className="w-full h-12 text-base shadow-button btn-lift gap-2" disabled={createFee.isPending || updateFee.isPending}>
+            <Button type="submit" className="w-full h-12 text-base bg-indigo-600 hover:bg-indigo-700 text-white shadow-button btn-lift gap-2" disabled={createFee.isPending || updateFee.isPending}>
               {createFee.isPending || updateFee.isPending
                 ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</>
                 : isEditing

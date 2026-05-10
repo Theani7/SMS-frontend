@@ -10,6 +10,7 @@ export function ClassesPage() {
     <PageContainer
       title="Classes"
       description="Manage class schedules and assignments"
+      withMesh={true}
     >
       <ClassList onAddNew={() => navigate(`${ROUTES.CLASSES}/new`)} />
     </PageContainer>

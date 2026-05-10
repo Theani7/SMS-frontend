@@ -73,11 +73,11 @@ export function TeacherForm({ teacher, onSuccess }: TeacherFormProps) {
   const subjects = ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English', 'History', 'Geography', 'Computer Science', 'Art', 'Music'];
 
   return (
-    <Card className="shadow-soft border-slate-100 max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle>{isEditing ? 'Edit Teacher' : 'Add New Teacher'}</CardTitle>
+    <Card className="shadow-soft border-slate-200/60 dark:border-slate-800/60 rounded-xl bg-white dark:bg-slate-950 max-w-2xl mx-auto">
+      <CardHeader className="border-b border-slate-100/60 dark:border-slate-800/60 pb-4">
+        <CardTitle className="text-lg font-semibold">{isEditing ? 'Edit Teacher' : 'Add New Teacher'}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid gap-4 md:grid-cols-2">
             <FormField label="Full Name" error={errors.name?.message} required>
@@ -136,7 +136,7 @@ export function TeacherForm({ teacher, onSuccess }: TeacherFormProps) {
           </FormField>
 
           <div className="flex gap-4">
-            <Button type="submit" className="w-full h-12 text-base shadow-button btn-lift gap-2" disabled={createTeacher.isPending || updateTeacher.isPending}>
+            <Button type="submit" className="w-full h-12 text-base bg-indigo-600 hover:bg-indigo-700 text-white shadow-button btn-lift gap-2" disabled={createTeacher.isPending || updateTeacher.isPending}>
               {createTeacher.isPending || updateTeacher.isPending
                 ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</>
                 : isEditing

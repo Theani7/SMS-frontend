@@ -42,19 +42,19 @@ export function StudentList({ onAddNew }: StudentListProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
-        <div className="relative flex-1 max-w-sm h-11 rounded-xl border border-slate-200 bg-white">
-          <Search aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <div className="relative flex-1 max-w-sm h-10 rounded-xl border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-950 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all">
+          <Search aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
           <Input
             placeholder="Search students..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="h-11 pl-10 pr-10 border-0 bg-transparent focus-visible:ring-0"
+            className="h-10 pl-10 pr-10 border-0 bg-transparent focus-visible:ring-0 text-sm"
           />
           {search && (
             <Button
               variant="ghost"
               size="icon"
-              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
               onClick={() => setSearch('')}
               aria-label="Clear search"
             >
@@ -63,7 +63,7 @@ export function StudentList({ onAddNew }: StudentListProps) {
           )}
         </div>
         {onAddNew && (
-          <Button onClick={onAddNew} className="h-11 px-5 rounded-xl shadow-button btn-lift gap-2">
+          <Button onClick={onAddNew} className="h-10 px-5 rounded-xl shadow-button btn-lift gap-2 bg-indigo-600 hover:bg-indigo-700 text-white border-0">
             <Plus aria-hidden="true" className="h-4 w-4" />
             Add Student
           </Button>

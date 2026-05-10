@@ -10,6 +10,7 @@ export function FeesPage() {
     <PageContainer
       title="Fees"
       description="Manage fee payments and records"
+      withMesh={true}
     >
       <FeeList onAddNew={() => navigate(`${ROUTES.FEES}/new`)} />
     </PageContainer>

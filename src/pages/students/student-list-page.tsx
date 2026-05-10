@@ -10,6 +10,7 @@ export function StudentsPage() {
     <PageContainer
       title="Students"
       description="Manage student records"
+      withMesh={true}
     >
       <StudentList onAddNew={() => navigate(`${ROUTES.STUDENTS}/new`)} />
     </PageContainer>
