@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { DataTable } from '../../../shared/components/data-display/data-table';
 import { EmptyState } from '../../../shared/components/data-display/empty-state';
 import { Button } from '../../../shared/components/ui/button';
@@ -28,6 +28,8 @@ export function FeeList({ onAddNew }: FeeListProps) {
   const debouncedSearch = useDebounce(search, 300);
   const queryClient = useQueryClient();
   const { data: fees, isLoading } = useFees(debouncedSearch);
+
+  const columns = useMemo(() => feeColumns({ onDelete: setDeleteId }), [setDeleteId]);
 
   const deleteMutation = useMutation({
     mutationFn: deleteFee,
@@ -81,7 +83,7 @@ export function FeeList({ onAddNew }: FeeListProps) {
           action={onAddNew ? { label: 'Add Fee', onClick: onAddNew } : undefined}
         />
       ) : (
-        <DataTable columns={feeColumns({ onDelete: setDeleteId })} data={fees || []} />
+        <DataTable columns={columns} data={fees || []} />
       )}
 
       <Dialog open={deleteId !== null} onOpenChange={(open) => !open && setDeleteId(null)}>

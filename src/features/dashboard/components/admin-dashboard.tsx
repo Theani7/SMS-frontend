@@ -6,17 +6,19 @@ import { RevenueMatrix } from './revenue-matrix';
 import { ActionVault } from './action-vault';
 import { ActivityStream } from './activity-stream';
 import { useAuthStore } from '../../../shared/store/auth-store';
+import { useMemo } from 'react';
 
 export function AdminDashboard() {
   const { data: stats, isLoading } = useAdminStats();
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
 
-  const today = new Date();
-  const formattedDate = today.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-  });
+  const formattedDate = useMemo(() => {
+    return new Date().toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+    });
+  }, []);
 
   if (isLoading) {
     return (

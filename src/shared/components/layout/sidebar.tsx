@@ -111,8 +111,10 @@ function SectionNav({ items, title, isCollapsed, location, onItemClick }: Sectio
 
 export function Sidebar() {
   const location = useLocation();
-  const { sidebarOpen, setSidebarOpen, sidebarCollapsed } = useUIStore();
-  const { user } = useAuthStore();
+  const sidebarOpen = useUIStore((state) => state.sidebarOpen);
+  const setSidebarOpen = useUIStore((state) => state.setSidebarOpen);
+  const sidebarCollapsed = useUIStore((state) => state.sidebarCollapsed);
+  const user = useAuthStore((state) => state.user);
 
   const allNavItems = [...mainNavigation, ...managementNavigation, ...operationsNavigation];
   const filteredNavItems = allNavItems.filter((item) => user?.role && item.roles.includes(user.role));

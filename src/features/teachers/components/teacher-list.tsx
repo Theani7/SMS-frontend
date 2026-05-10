@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { DataTable } from '../../../shared/components/data-display/data-table';
 import { EmptyState } from '../../../shared/components/data-display/empty-state';
 import { Button } from '../../../shared/components/ui/button';
@@ -28,6 +28,8 @@ export function TeacherList({ onAddNew }: TeacherListProps) {
   const debouncedSearch = useDebounce(search, 300);
   const queryClient = useQueryClient();
   const { data: teachers, isLoading } = useTeachers(debouncedSearch);
+
+  const columns = useMemo(() => teacherColumns({ onDelete: setDeleteId }), [setDeleteId]);
 
   const deleteMutation = useMutation({
     mutationFn: deleteTeacher,
@@ -81,7 +83,7 @@ export function TeacherList({ onAddNew }: TeacherListProps) {
           action={onAddNew ? { label: 'Add Teacher', onClick: onAddNew } : undefined}
         />
       ) : (
-        <DataTable columns={teacherColumns({ onDelete: setDeleteId })} data={teachers || []} />
+        <DataTable columns={columns} data={teachers || []} />
       )}
 
       <Dialog open={deleteId !== null} onOpenChange={(open) => !open && setDeleteId(null)}>

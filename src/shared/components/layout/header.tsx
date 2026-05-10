@@ -12,9 +12,12 @@ import { useAuthStore } from '../../store/auth-store';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 
 export function Header() {
-  const { theme, toggleTheme } = useThemeStore();
-  const { toggleSidebar, sidebarOpen } = useUIStore();
-  const { user, logout } = useAuthStore();
+  const theme = useThemeStore((state) => state.theme);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
+  const toggleSidebar = useUIStore((state) => state.toggleSidebar);
+  const sidebarOpen = useUIStore((state) => state.sidebarOpen);
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
 
   return (
     <header className="flex h-14 items-center justify-between border-b border-slate-200/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 lg:px-6 sticky top-0 z-50">
