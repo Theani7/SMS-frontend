@@ -69,8 +69,8 @@ export function FeeList() {
         </div>
       ) : fees?.length === 0 ? (
         <EmptyState
-          title="No fee records found"
-          description={search ? 'Try adjusting your search' : 'Your payment history will appear here.'}
+          title={search ? "No transactions match your search." : "All caught up — no outstanding fees."}
+          description={search ? "Try adjusting your search terms." : "Your payment history will appear here."}
         />
       ) : (
         <div className="border border-slate-200/60 dark:border-slate-800/60 rounded-2xl overflow-hidden bg-white dark:bg-slate-950 shadow-soft">
