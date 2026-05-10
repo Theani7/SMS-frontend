@@ -8,6 +8,10 @@ export const ROUTES = {
   ATTENDANCE: '/attendance',
   ATTENDANCE_MARK: '/attendance/mark',
   FEES: '/fees',
+  ASSIGNMENTS: '/assignments',
+  PERFORMANCE: '/performance',
+  TIMETABLE: '/timetable',
+  ANNOUNCEMENTS: '/announcements',
 } as const;
 
 export const USER_ROLES = {
