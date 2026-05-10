@@ -36,6 +36,8 @@ const AssignmentsPage = lazy(() => import('../pages/assignments/assignments-page
 const PerformancePage = lazy(() => import('../pages/performance/performance-page').then(m => ({ default: m.PerformancePage })));
 const TimetablePage = lazy(() => import('../pages/timetable/timetable-page').then(m => ({ default: m.TimetablePage })));
 const AnnouncementsPage = lazy(() => import('../pages/announcements/announcements-page').then(m => ({ default: m.AnnouncementsPage })));
+const ChildrenPage = lazy(() => import('../pages/children/children-page').then(m => ({ default: m.ChildrenPage })));
+const ChildDetailPage = lazy(() => import('../pages/children/child-detail-page').then(m => ({ default: m.ChildDetailPage })));
 
 export function AppRoutes() {
   return (
@@ -207,6 +209,24 @@ export function AppRoutes() {
             element={
               <ProtectedRoute allowedRoles={['student']}>
                 <AnnouncementsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Parent Specific Routes */}
+          <Route
+            path={ROUTES.CHILDREN}
+            element={
+              <ProtectedRoute allowedRoles={['parent']}>
+                <ChildrenPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${ROUTES.CHILDREN}/:id`}
+            element={
+              <ProtectedRoute allowedRoles={['parent']}>
+                <ChildDetailPage />
               </ProtectedRoute>
             }
           />
