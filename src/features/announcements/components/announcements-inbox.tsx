@@ -69,8 +69,10 @@ export function AnnouncementsInbox() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-[600px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+      <div className="space-y-4 animate-pulse">
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className="h-20 rounded-xl bg-slate-100 dark:bg-slate-800" />
+        ))}
       </div>
     );
   }

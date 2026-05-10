@@ -1,14 +1,17 @@
-import { PageContainer } from '../../shared/components/layout/page-container';
+import { StudentShell } from '../../shared/components/student/student-shell';
+import { useUrgencySignals } from '../../shared/hooks/use-urgency-signals';
 import { AnnouncementsInbox } from '../../features/announcements/components/announcements-inbox';
 
 export function AnnouncementsPage() {
+  const urgencyItems = useUrgencySignals();
+
   return (
-    <PageContainer
+    <StudentShell
       title="Announcements"
-      description="Stay updated with the latest school news and notices."
-      withMesh={true}
+      breadcrumbs={[{ label: 'Dashboard', href: '/' }, { label: 'Announcements' }]}
+      urgencyItems={urgencyItems}
     >
       <AnnouncementsInbox />
-    </PageContainer>
+    </StudentShell>
   );
 }
