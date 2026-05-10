@@ -140,7 +140,9 @@ export async function mockGetChildrenAttendance(childId?: string): Promise<{ id:
 
   const parentUser = mockDb.users.find((u) => u.id === user.id);
   const children = parentUser?.children || [];
-  const studentIds = childId ? [childId] : children;
+  const studentIds = childId
+  ? (children.includes(childId) ? [childId] : [])
+  : children;
 
   return attendanceData
     .filter((a) => studentIds.includes(a.studentId))
