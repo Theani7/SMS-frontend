@@ -1,7 +1,5 @@
 import { useAdminStats } from '../hooks/use-dashboard-stats';
 import { MetricCard } from '../../../shared/components/data-display/metric-card';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../../shared/components/ui/card';
-import { formatDate } from '../../../shared/lib/utils';
 import { DashboardGrid } from '../../../shared/components/layout/dashboard-grid';
 import { AttendancePulse } from './attendance-pulse';
 import { RevenueMatrix } from './revenue-matrix';
