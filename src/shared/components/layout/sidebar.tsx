@@ -12,11 +12,20 @@ import {
   BookOpen,
   ClipboardCheck,
   DollarSign,
+  Calendar,
+  ClipboardList,
+  TrendingUp,
+  Bell,
   X,
 } from 'lucide-react';
 
 const mainNavigation = [
   { name: 'Dashboard', href: ROUTES.DASHBOARD, icon: LayoutDashboard, roles: ['admin', 'teacher', 'parent', 'student'] },
+];
+
+const academicsNavigation = [
+  { name: 'Timetable', href: ROUTES.TIMETABLE, icon: Calendar, roles: ['student'] },
+  { name: 'Assignments', href: ROUTES.ASSIGNMENTS, icon: ClipboardList, roles: ['student'] },
 ];
 
 const managementNavigation = [
@@ -27,7 +36,9 @@ const managementNavigation = [
 
 const operationsNavigation = [
   { name: 'Attendance', href: ROUTES.ATTENDANCE, icon: ClipboardCheck, roles: ['admin', 'teacher', 'parent', 'student'] },
-  { name: 'Fees', href: ROUTES.FEES, icon: DollarSign, roles: ['admin', 'parent'] },
+  { name: 'Performance', href: ROUTES.PERFORMANCE, icon: TrendingUp, roles: ['student'] },
+  { name: 'Fees', href: ROUTES.FEES, icon: DollarSign, roles: ['admin', 'parent', 'student'] },
+  { name: 'Announcements', href: ROUTES.ANNOUNCEMENTS, icon: Bell, roles: ['student'] },
 ];
 
 interface NavItemType {
@@ -116,10 +127,11 @@ export function Sidebar() {
   const sidebarCollapsed = useUIStore((state) => state.sidebarCollapsed);
   const user = useAuthStore((state) => state.user);
 
-  const allNavItems = [...mainNavigation, ...managementNavigation, ...operationsNavigation];
+  const allNavItems = [...mainNavigation, ...academicsNavigation, ...managementNavigation, ...operationsNavigation];
   const filteredNavItems = allNavItems.filter((item) => user?.role && item.roles.includes(user.role));
 
   const mainItems = filteredNavItems.filter((item) => mainNavigation.some((m) => m.name === item.name));
+  const academicItems = filteredNavItems.filter((item) => academicsNavigation.some((m) => m.name === item.name));
   const managementItems = filteredNavItems.filter((item) => managementNavigation.some((m) => m.name === item.name));
   const operationsItems = filteredNavItems.filter((item) => operationsNavigation.some((m) => m.name === item.name));
 
@@ -166,6 +178,9 @@ export function Sidebar() {
         <nav className="flex-1 overflow-y-auto px-3 space-y-4 scrollbar-none">
           {mainItems.length > 0 && (
             <SectionNav items={mainItems} title="Overview" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} />
+          )}
+          {academicItems.length > 0 && (
+            <SectionNav items={academicItems} title="Academics" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} />
           )}
           {managementItems.length > 0 && (
             <SectionNav items={managementItems} title="Management" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} />

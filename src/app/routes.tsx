@@ -31,6 +31,12 @@ const AttendanceMarkPage = lazy(() => import('../pages/attendance/mark-attendanc
 const FeesPage = lazy(() => import('../pages/fees/fee-list-page').then(m => ({ default: m.FeesPage })));
 const FeeFormPage = lazy(() => import('../pages/fees/fee-form-page').then(m => ({ default: m.FeeFormPage })));
 
+// Student Portal Pages
+const AssignmentsPage = lazy(() => import('../pages/assignments/assignments-page').then(m => ({ default: m.AssignmentsPage })));
+const PerformancePage = lazy(() => import('../pages/performance/performance-page').then(m => ({ default: m.PerformancePage })));
+const TimetablePage = lazy(() => import('../pages/timetable/timetable-page').then(m => ({ default: m.TimetablePage })));
+const AnnouncementsPage = lazy(() => import('../pages/announcements/announcements-page').then(m => ({ default: m.AnnouncementsPage })));
+
 export function AppRoutes() {
   return (
     <Suspense fallback={<PageLoader />}>
@@ -149,7 +155,7 @@ export function AppRoutes() {
           <Route
             path={ROUTES.FEES}
             element={
-              <ProtectedRoute allowedRoles={['admin', 'parent']}>
+              <ProtectedRoute allowedRoles={['admin', 'parent', 'student']}>
                 <FeesPage />
               </ProtectedRoute>
             }
@@ -167,6 +173,40 @@ export function AppRoutes() {
             element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <FeeFormPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Student Specific Routes */}
+          <Route
+            path={ROUTES.ASSIGNMENTS}
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <AssignmentsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.PERFORMANCE}
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <PerformancePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.TIMETABLE}
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <TimetablePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.ANNOUNCEMENTS}
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <AnnouncementsPage />
               </ProtectedRoute>
             }
           />
