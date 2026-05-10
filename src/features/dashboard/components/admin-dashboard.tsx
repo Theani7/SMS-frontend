@@ -5,13 +5,26 @@ import { AttendancePulse } from './attendance-pulse';
 import { RevenueMatrix } from './revenue-matrix';
 import { ActionVault } from './action-vault';
 import { ActivityStream } from './activity-stream';
+import { useAuthStore } from '../../../shared/store/auth-store';
 
 export function AdminDashboard() {
   const { data: stats, isLoading } = useAdminStats();
+  const { user } = useAuthStore();
+
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  });
 
   if (isLoading) {
     return (
-      <div className="animate-pulse space-y-4">
+      <div className="animate-pulse space-y-6">
+        <div className="space-y-2">
+          <div className="h-7 w-48 bg-muted rounded-md" />
+          <div className="h-4 w-64 bg-muted rounded-md opacity-60" />
+        </div>
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="h-28 bg-muted rounded-xl" />
@@ -22,7 +35,16 @@ export function AdminDashboard() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-mesh min-h-full -m-4 p-4 lg:-m-8 lg:p-8">
+      <div className="flex flex-col gap-0.5">
+        <h1 className="text-xl font-semibold tracking-tight">
+          Good morning, {user?.name || 'Admin User'}
+        </h1>
+        <p className="text-sm text-slate-500">
+          Here's the operational pulse for {formattedDate}.
+        </p>
+      </div>
+
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <MetricCard
           title="Students"

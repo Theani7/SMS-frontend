@@ -27,7 +27,7 @@ const getHealthColor = (percentage: number) => {
 
 export function AttendancePulse() {
   return (
-    <Card className="border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+    <Card className="border-slate-200/60 dark:border-slate-800/60 shadow-sm overflow-hidden">
       <CardHeader className="flex flex-row items-center justify-between pb-4">
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center">
@@ -63,7 +63,7 @@ export function AttendancePulse() {
                     <div
                       key={idx}
                       className={cn(
-                        "flex-1 h-5 rounded-sm transition-all duration-200 hover:scale-110 cursor-help",
+                        "flex-1 h-5 rounded-sm transition-all duration-150 ease-out hover:scale-110 cursor-help",
                         getHealthColor(cell.percentage)
                       )}
                       title={`${row.className} - ${cell.day}: ${cell.percentage}%`}

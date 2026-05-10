@@ -11,7 +11,7 @@ const revenueData = [
 
 export function RevenueMatrix() {
   return (
-    <Card className="border-slate-200 dark:border-slate-800 shadow-sm">
+    <Card className="border-slate-200/60 dark:border-slate-800/60 shadow-sm">
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-semibold text-slate-900 dark:text-slate-100">Revenue Matrix</CardTitle>
         <CardDescription>Fee collection status by class</CardDescription>
@@ -21,10 +21,10 @@ export function RevenueMatrix() {
           <Table>
             <TableHeader>
             <TableRow className="hover:bg-transparent border-slate-100 dark:border-slate-800">
-              <TableHead className="h-10 text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-4">Class</TableHead>
-              <TableHead className="h-10 text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-4">Collection Progress</TableHead>
-              <TableHead className="h-10 text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-4">Amount Collected</TableHead>
-              <TableHead className="h-10 text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-4 text-right">Pending</TableHead>
+              <TableHead className="h-10 text-[11px] font-semibold text-slate-500 uppercase tracking-tight px-4">Class</TableHead>
+              <TableHead className="h-10 text-[11px] font-semibold text-slate-500 uppercase tracking-tight px-4">Collection Progress</TableHead>
+              <TableHead className="h-10 text-[11px] font-semibold text-slate-500 uppercase tracking-tight px-4">Amount Collected</TableHead>
+              <TableHead className="h-10 text-[11px] font-semibold text-slate-500 uppercase tracking-tight px-4 text-right">Pending</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

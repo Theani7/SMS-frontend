@@ -1,0 +1,26 @@
+# Task 9: Motion & Interaction Polish
+
+- [ ] **Step 1: CSS Refinements (Typography & Global Transitions)**
+    - [ ] Update `src/index.css`:
+        - [ ] Change `.card-hover` duration to `150ms`.
+        - [ ] Update primary font to `'Inter', system-ui, sans-serif`.
+        - [ ] Ensure `transition-all duration-150 ease-out` is standardized.
+- [ ] **Step 2: MetricCard Interaction Polish**
+    - [ ] Update `src/shared/components/data-display/metric-card.tsx`:
+        - [ ] Add `hover:border-indigo-500/30`, `hover:shadow-md`, `hover:-translate-y-0.5`.
+        - [ ] Add `transition-all duration-150 ease-out`.
+        - [ ] Apply `tracking-tight` to headers and metrics.
+- [ ] **Step 3: ActionVault Interaction Polish**
+    - [ ] Update `src/features/dashboard/components/action-vault.tsx`:
+        - [ ] Add `transition-all duration-150 ease-out` and subtle lift to buttons.
+- [ ] **Step 4: AttendancePulse Interaction Polish**
+    - [ ] Update `src/features/dashboard/components/attendance-pulse.tsx`:
+        - [ ] Add `hover:scale-110` to heatmap cells.
+        - [ ] Add tooltip-friendly transitions.
+- [ ] **Step 5: AdminDashboard Typography Refinement**
+    - [ ] Update `src/features/dashboard/components/admin-dashboard.tsx`:
+        - [ ] Apply `tracking-tight` to headers and metrics.
+- [ ] **Step 6: Build Verification**
+    - [ ] Run `npm run build` to ensure no regressions.
+- [ ] **Step 7: Commit**
+    - [ ] Commit with message: "style: add subtle motion and Inter typography polish"

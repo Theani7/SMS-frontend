@@ -15,15 +15,16 @@ interface MetricCardProps {
 export function MetricCard({ title, value, trend, description, className }: MetricCardProps) {
   return (
     <div className={cn(
-      "p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm flex flex-col justify-between min-h-[110px]",
+      "p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 rounded-xl shadow-sm flex flex-col justify-between min-h-[110px]",
+      "transition-all duration-150 ease-out hover:border-indigo-500/30 hover:shadow-md hover:-translate-y-0.5",
       className
     )}>
       <div className="flex flex-col gap-1">
-        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-tight">
           {title}
         </span>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
+          <span className="text-2xl font-bold text-slate-900 dark:text-slate-100 tabular-nums tracking-tight">
             {value}
           </span>
           {trend && (
