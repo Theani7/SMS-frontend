@@ -17,8 +17,9 @@ export function RevenueMatrix() {
         <CardDescription>Fee collection status by class</CardDescription>
       </CardHeader>
       <CardContent className="p-0">
-        <Table>
-          <TableHeader>
+        <div className="overflow-x-auto pb-2">
+          <Table>
+            <TableHeader>
             <TableRow className="hover:bg-transparent border-slate-100 dark:border-slate-800">
               <TableHead className="h-10 text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-4">Class</TableHead>
               <TableHead className="h-10 text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-4">Collection Progress</TableHead>
@@ -53,6 +54,7 @@ export function RevenueMatrix() {
             ))}
           </TableBody>
         </Table>
+        </div>
       </CardContent>
     </Card>
   );
