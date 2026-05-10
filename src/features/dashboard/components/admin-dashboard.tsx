@@ -12,7 +12,7 @@ export function AdminDashboard() {
   if (isLoading) {
     return (
       <div className="animate-pulse space-y-4">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="h-28 bg-muted rounded-xl" />
           ))}
@@ -23,7 +23,7 @@ export function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <MetricCard
           title="Students"
           value={stats?.totalStudents || 0}
