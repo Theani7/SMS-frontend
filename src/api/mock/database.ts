@@ -67,6 +67,7 @@ export const mockDb: MockDatabase = {
       password: 'parent123',
       name: 'John Smith',
       role: 'parent',
+      children: ['1', '3'],
       createdAt: '2024-02-01T00:00:00Z',
     },
     {

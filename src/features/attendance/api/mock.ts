@@ -1,5 +1,6 @@
 import type { AttendanceRecord, AttendanceMark, AttendanceFilters, ClassOption, AttendanceInsights } from '../types/attendance';
 import { mockDb } from '../../../api/mock/database';
+import { useAuthStore } from '../../../shared/store/auth-store';
 
 const generateAttendanceData = (): AttendanceRecord[] => {
   const data: AttendanceRecord[] = [];
@@ -127,4 +128,27 @@ export async function getClassOptions(): Promise<ClassOption[]> {
     { id: 'class-c', name: 'Grade 9-A', teacherName: 'Emily Davis' },
     { id: 'class-d', name: 'Grade 9-B', teacherName: 'Robert Wilson' },
   ];
+}
+
+export async function mockGetChildrenAttendance(childId?: string): Promise<{ id: string; studentId: string; studentName: string; date: string; status: string }[]> {
+  await new Promise((resolve) => setTimeout(resolve, 300));
+
+  const { user } = useAuthStore.getState();
+  if (!user || user.role !== 'parent') {
+    return [];
+  }
+
+  const parentUser = mockDb.users.find((u) => u.id === user.id);
+  const children = parentUser?.children || [];
+  const studentIds = childId ? [childId] : children;
+
+  return attendanceData
+    .filter((a) => studentIds.includes(a.studentId))
+    .map((a) => ({
+      id: a.id,
+      studentId: a.studentId,
+      studentName: a.studentName,
+      date: a.date,
+      status: a.status,
+    }));
 }

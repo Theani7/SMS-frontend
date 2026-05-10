@@ -1,4 +1,6 @@
 import type { Fee, CreateFeeData, UpdateFeeData } from '../types/fee';
+import { mockDb } from '../../../api/mock/database';
+import { useAuthStore } from '../../../shared/store/auth-store';
 
 let fees: Fee[] = [
   {
@@ -174,4 +176,29 @@ export async function payFee(): Promise<void> {
     }
     return f;
   });
+}
+
+export async function mockGetChildrenFees(childId?: string): Promise<{ id: string; studentId: string; studentName: string; description: string; amount: number; status: string; dueDate: string }[]> {
+  await new Promise((resolve) => setTimeout(resolve, 300));
+
+  const { user } = useAuthStore.getState();
+  if (!user || user.role !== 'parent') {
+    return [];
+  }
+
+  const parentUser = mockDb.users.find((u) => u.id === user.id);
+  const children = parentUser?.children || [];
+  const studentIds = childId ? [childId] : children;
+
+  return fees
+    .filter((f) => studentIds.includes(f.studentId))
+    .map((f) => ({
+      id: f.id,
+      studentId: f.studentId,
+      studentName: f.studentName,
+      description: f.feeType,
+      amount: f.amount,
+      status: f.status,
+      dueDate: f.dueDate,
+    }));
 }

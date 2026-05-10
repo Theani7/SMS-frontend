@@ -19,4 +19,5 @@ export interface AuthResponse {
 
 export interface MockUser extends User {
   password?: string;
+  children?: string[];
 }
