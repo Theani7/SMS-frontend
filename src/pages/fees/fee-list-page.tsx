@@ -25,6 +25,15 @@ export function FeesPage() {
 
   const allPaid = displayedFees && displayedFees.length > 0 && displayedFees.every(f => f.status === 'paid');
 
+  const pendingStats = useMemo(() => {
+    if (!displayedFees) return { totalPending: 0, nextDueDate: undefined };
+    const pendingFees = (displayedFees || []).filter(f => f.status === 'pending');
+    const totalPending = pendingFees.reduce((sum, f) => sum + f.amount, 0);
+    const sortedPending = [...pendingFees].sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
+    const nextDueFee = sortedPending[0];
+    return { totalPending, nextDueDate: nextDueFee?.dueDate };
+  }, [displayedFees]);
+
   const stats = useMemo(() => {
     if (!displayedFees) return { total: 0, paid: 0 };
     const total = displayedFees.reduce((acc, f) => acc + f.amount, 0);
@@ -48,7 +57,7 @@ export function FeesPage() {
           </div>
         )}
         {!loading && !allPaid && (
-          <DashboardGrid sidebar={<FeeProgress totalFees={stats.total + 1200} paidFees={stats.paid} nextDueDate="2026-05-15" />}>
+          <DashboardGrid sidebar={<FeeProgress totalFees={pendingStats.totalPending} paidFees={stats.paid} nextDueDate={pendingStats.nextDueDate} />}>
             <FeeList fees={displayedFees} />
           </DashboardGrid>
         )}
@@ -80,7 +89,7 @@ export function FeesPage() {
         </div>
       )}
       {!loading && !allPaid && (
-        <DashboardGrid sidebar={<FeeProgress totalFees={stats.total + 1200} paidFees={stats.paid} nextDueDate="2026-05-15" />}>
+        <DashboardGrid sidebar={<FeeProgress totalFees={pendingStats.totalPending} paidFees={stats.paid} nextDueDate={pendingStats.nextDueDate} />}>
           <FeeList fees={displayedFees} />
         </DashboardGrid>
       )}
