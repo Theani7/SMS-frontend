@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Home } from 'lucide-react';
 import { Button } from '../ui/button';
 import { UrgencyStrip, type UrgencyItem } from './urgency-strip';
 import { cn } from '../../lib/utils';
@@ -38,13 +38,19 @@ export function StudentShell({
   const urgencyCount = urgencyItems.length;
 
   return (
-    <div className={cn('flex flex-col', className)}>
+    <div className={cn('flex flex-col gap-4 lg:gap-6 p-4 lg:p-6', className)}>
       {/* Breadcrumb trail */}
       {breadcrumbs.length > 0 && (
-        <nav className="mb-3 flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+        <nav className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+          <Link
+            to="/"
+            className="flex items-center gap-1 hover:text-indigo-600 dark:hover:text-indigo-400"
+          >
+            <Home className="h-3 w-3" />
+          </Link>
           {breadcrumbs.map((crumb, i) => (
             <span key={i} className="flex items-center gap-1">
-              {i > 0 && <ChevronRight className="h-3 w-3 text-slate-300 dark:text-slate-600" />}
+              <ChevronRight className="h-3 w-3 text-slate-300 dark:text-slate-600" />
               {crumb.href && !mobile ? (
                 <Link to={crumb.href} className="hover:text-slate-700 dark:hover:text-slate-200">
                   {crumb.label}
@@ -61,11 +67,11 @@ export function StudentShell({
 
       {/* Urgency Strip */}
       {urgencyItems.length > 0 && (
-        <UrgencyStrip items={urgencyItems} className="mb-4" />
+        <UrgencyStrip items={urgencyItems} />
       )}
 
       {/* Page header */}
-      <div className="mb-4 flex items-center gap-3">
+      <div className="flex items-center gap-3">
         <h1 className="text-xl font-bold text-slate-900 dark:text-white">{title}</h1>
         {urgencyCount > 0 && (
           <span className="inline-flex h-6 min-w-[24px] items-center justify-center rounded-full bg-red-100 px-2 text-xs font-bold text-red-600 dark:bg-red-900/30 dark:text-red-400">
