@@ -1,29 +1,24 @@
 import { TrajectoryChart } from './trajectory-chart';
-import { SubjectPerformance, TrajectoryPoint } from '../types';
 import { cn } from '../../../shared/lib/utils';
 import { Button } from '../../../shared/components/ui/button';
-
-const MOCK_TRAJECTORY: TrajectoryPoint[] = [
-  { week: 'W1', gpa: 3.65 },
-  { week: 'W2', gpa: 3.70 },
-  { week: 'W3', gpa: 3.68 },
-  { week: 'W4', gpa: 3.75 },
-  { week: 'W5', gpa: 3.82 },
-  { week: 'W6', gpa: 3.82 },
-  { week: 'W7', gpa: 3.88, projected: true },
-  { week: 'W8', gpa: 3.90, projected: true },
-];
-
-const MOCK_SUBJECTS: SubjectPerformance[] = [
-  { subject: 'Mathematics', grade: 'A', progress: 92, status: 'excellent' },
-  { subject: 'Physics', grade: 'A+', progress: 96, status: 'excellent' },
-  { subject: 'Computer Science', grade: 'B+', progress: 84, status: 'good' },
-  { subject: 'English Lit', grade: 'B-', progress: 78, status: 'warning' },
-];
+import { usePerformanceInsights } from '../hooks/use-performance-insights';
 
 export function GrowthDashboard() {
+  const { data, isLoading } = usePerformanceInsights();
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-pulse">
+        <div className="lg:col-span-8 h-96 bg-slate-50 dark:bg-slate-900 rounded-2xl" />
+        <div className="lg:col-span-4 h-96 bg-slate-50 dark:bg-slate-900 rounded-2xl" />
+      </div>
+    );
+  }
+
+  const { trajectory = [], subjects = [] } = data || {};
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-in fade-in duration-500">
       {/* Top Metrics Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
@@ -62,7 +57,7 @@ export function GrowthDashboard() {
             </div>
           </div>
           
-          <TrajectoryChart data={MOCK_TRAJECTORY} />
+          <TrajectoryChart data={trajectory} />
           
           <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row justify-between gap-4">
             <div className="flex gap-8">
@@ -88,7 +83,7 @@ export function GrowthDashboard() {
               Subject Performance
             </h2>
             <div className="space-y-5">
-              {MOCK_SUBJECTS.map((item) => (
+              {subjects.map((item) => (
                 <div key={item.subject}>
                   <div className="flex justify-between items-center mb-1.5">
                     <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{item.subject}</span>
