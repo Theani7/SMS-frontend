@@ -5,6 +5,7 @@ import { useUIStore } from '../../store/ui-store';
 import { useAuthStore } from '../../store/auth-store';
 import { ROUTES } from '../../lib/constants';
 import { SidebarToggle } from './sidebar-toggle';
+import { Avatar, AvatarFallback } from '../ui/avatar';
 import {
   LayoutDashboard,
   Users,
@@ -56,17 +57,22 @@ interface NavItemProps {
 }
 
 function NavItem({ item, isActive, collapsed, onClick }: NavItemProps) {
+  const isStudent = useAuthStore((state) => state.user?.role === 'student');
+
   return (
     <Link to={item.href} onClick={onClick}>
       <div
         className={cn(
           'group relative flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-all duration-200 cursor-pointer',
-          isActive 
-            ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm border-slate-200 dark:border-slate-700 font-semibold' 
+          isActive
+            ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm border-slate-200 dark:border-slate-700 font-semibold'
             : 'hover:bg-slate-100 dark:hover:bg-slate-800/50 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
         )}
         title={collapsed ? item.name : undefined}
       >
+        {isActive && isStudent && (
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1 w-1 rounded-full bg-indigo-500" />
+        )}
         <item.icon className={cn('h-[18px] w-[18px] shrink-0 transition-colors', isActive ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-600')} />
         <span
           className={cn(
@@ -76,7 +82,7 @@ function NavItem({ item, isActive, collapsed, onClick }: NavItemProps) {
         >
           {item.name}
         </span>
-        {isActive && !collapsed && (
+        {isActive && !collapsed && !isStudent && (
           <div className="ml-auto h-1 w-1 rounded-full bg-indigo-500" />
         )}
       </div>
@@ -90,10 +96,13 @@ interface SectionNavProps {
   isCollapsed: boolean;
   location: string;
   onItemClick?: () => void;
+  hidden?: boolean;
 }
 
-function SectionNav({ items, title, isCollapsed, location, onItemClick }: SectionNavProps) {
+function SectionNav({ items, title, isCollapsed, location, onItemClick, hidden }: SectionNavProps) {
   const filteredItems = items; // Filter by role handled at parent level
+
+  if (hidden) return null;
 
   return (
     <div className="space-y-1">
@@ -126,14 +135,35 @@ export function Sidebar() {
   const setSidebarOpen = useUIStore((state) => state.setSidebarOpen);
   const sidebarCollapsed = useUIStore((state) => state.sidebarCollapsed);
   const user = useAuthStore((state) => state.user);
+  const isStudent = user?.role === 'student';
 
   const allNavItems = [...mainNavigation, ...academicsNavigation, ...managementNavigation, ...operationsNavigation];
   const filteredNavItems = allNavItems.filter((item) => user?.role && item.roles.includes(user.role));
 
-  const mainItems = filteredNavItems.filter((item) => mainNavigation.some((m) => m.name === item.name));
-  const academicItems = filteredNavItems.filter((item) => academicsNavigation.some((m) => m.name === item.name));
-  const managementItems = filteredNavItems.filter((item) => managementNavigation.some((m) => m.name === item.name));
-  const operationsItems = filteredNavItems.filter((item) => operationsNavigation.some((m) => m.name === item.name));
+  // Student obligation-first ordering: Dashboard, Assignments, Timetable, Performance, Attendance, Fees, Announcements
+  const studentOrder = [ROUTES.DASHBOARD, ROUTES.ASSIGNMENTS, ROUTES.TIMETABLE, ROUTES.PERFORMANCE, ROUTES.ATTENDANCE, ROUTES.FEES, ROUTES.ANNOUNCEMENTS];
+  const sortedNavItems = isStudent
+    ? [...filteredNavItems].sort((a, b) => {
+        const aIdx = studentOrder.findIndex((r) => r === a.href);
+        const bIdx = studentOrder.findIndex((r) => r === b.href);
+        return aIdx - bIdx;
+      })
+    : filteredNavItems;
+
+  const mainItems = sortedNavItems.filter((item) => mainNavigation.some((m) => m.name === item.name));
+  const academicItems = sortedNavItems.filter((item) => academicsNavigation.some((m) => m.name === item.name));
+  const managementItems = sortedNavItems.filter((item) => managementNavigation.some((m) => m.name === item.name));
+  const operationsItems = sortedNavItems.filter((item) => operationsNavigation.some((m) => m.name === item.name));
+
+  // Get initials for avatar fallback
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   return (
     <>
@@ -175,18 +205,32 @@ export function Sidebar() {
           </Button>
         </div>
 
+        {/* Student identity section */}
+        {isStudent && user && !sidebarCollapsed && (
+          <div className="flex items-center gap-2.5 px-4 py-2 mb-2 mx-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/30">
+            <Avatar className="h-8 w-8">
+              <AvatarFallback className="bg-indigo-100 text-indigo-700 text-xs font-semibold">
+                {getInitials(user.name)}
+              </AvatarFallback>
+            </Avatar>
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate">
+              {user.name}
+            </span>
+          </div>
+        )}
+
         <nav className="flex-1 overflow-y-auto px-3 space-y-4 scrollbar-none">
           {mainItems.length > 0 && (
-            <SectionNav items={mainItems} title="Overview" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} />
+            <SectionNav items={mainItems} title="Overview" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} hidden={isStudent} />
           )}
           {academicItems.length > 0 && (
-            <SectionNav items={academicItems} title="Academics" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} />
+            <SectionNav items={academicItems} title="Academics" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} hidden={isStudent} />
           )}
           {managementItems.length > 0 && (
-            <SectionNav items={managementItems} title="Management" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} />
+            <SectionNav items={managementItems} title="Management" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} hidden={isStudent} />
           )}
           {operationsItems.length > 0 && (
-            <SectionNav items={operationsItems} title="Operations" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} />
+            <SectionNav items={operationsItems} title="Operations" isCollapsed={sidebarCollapsed} location={location.pathname} onItemClick={() => setSidebarOpen(false)} hidden={isStudent} />
           )}
         </nav>
 
