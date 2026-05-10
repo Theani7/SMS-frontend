@@ -2,6 +2,7 @@ import { TrajectoryChart } from './trajectory-chart';
 import { cn } from '../../../shared/lib/utils';
 import { Button } from '../../../shared/components/ui/button';
 import { usePerformanceInsights } from '../hooks/use-performance-insights';
+import { SectionHeader } from '../../../shared/components/student/section-header';
 
 export function GrowthDashboard() {
   const { data, isLoading } = usePerformanceInsights();
@@ -79,9 +80,7 @@ export function GrowthDashboard() {
         {/* Subject Insights Sidebar */}
         <div className="lg:col-span-4 space-y-6">
           <div className="p-5 rounded-2xl border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 shadow-sm">
-            <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-4">
-              Subject Performance
-            </h2>
+            <SectionHeader label="Subject Performance" className="mb-4" />
             <div className="space-y-5">
               {subjects.map((item) => (
                 <div key={item.subject}>
