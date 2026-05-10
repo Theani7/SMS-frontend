@@ -17,7 +17,9 @@ export function ChildDetailPage() {
 
   const last7Days = (attendance || []).slice(-7).reverse();
   const unpaidFees = (fees || []).filter(f => f.status !== 'paid');
-  const outstanding = (fees || []).filter(f => f.status === 'pending').reduce((sum, f) => sum + f.amount, 0);
+  const pendingFees = (fees || []).filter(f => f.status === 'pending');
+  const urgencyCount = pendingFees.length;
+  const outstanding = pendingFees.reduce((sum, f) => sum + f.amount, 0);
 
   const getInitials = (name: string) => name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 
@@ -27,6 +29,7 @@ export function ChildDetailPage() {
       breadcrumbs={[
         { label: 'Children', href: '/children' },
       ]}
+      urgencyCount={urgencyCount}
     >
       {/* Child profile header */}
       <div className="flex items-center gap-3 mb-6">

@@ -9,6 +9,8 @@ export function ChildrenPage() {
   const { data: fees } = useChildrenFees();
   const { data: attendance } = useChildrenAttendance();
 
+  const unpaidFees = (fees || []).filter(f => f.status === 'pending');
+
   // Enrich children with urgency indicators
   const enrichedChildren = (children || []).map(child => {
     const childFees = (fees || []).filter(f => f.studentId === child.id);
@@ -22,7 +24,7 @@ export function ChildrenPage() {
 
   if (isLoading) {
     return (
-      <ParentShell title="Children">
+      <ParentShell title="Children" urgencyCount={unpaidFees.length}>
         <div className="grid gap-3">
           {[1, 2].map(i => (
             <div key={i} className="h-16 bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse" />
@@ -34,7 +36,7 @@ export function ChildrenPage() {
 
   if (enrichedChildren.length === 0) {
     return (
-      <ParentShell title="Children">
+      <ParentShell title="Children" urgencyCount={unpaidFees.length}>
         <div className="text-center py-12">
           <p className="text-[13px] text-slate-500 dark:text-slate-400">No children linked to your account</p>
           <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">Contact the school to link your children</p>
@@ -44,7 +46,7 @@ export function ChildrenPage() {
   }
 
   return (
-    <ParentShell title="Children">
+    <ParentShell title="Children" urgencyCount={unpaidFees.length}>
       <div className="grid gap-3 sm:grid-cols-2">
         {enrichedChildren.map(child => (
           <ChildCard key={child.id} child={child} />

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Home, ChevronRight } from 'lucide-react';
 import { cn } from '../../lib/utils';
-import { useChildrenFees } from '../../../features/children/hooks/use-children-fees';
 
 interface BreadcrumbItem {
   label: string;
@@ -13,12 +12,10 @@ interface ParentShellProps {
   breadcrumbs?: BreadcrumbItem[];
   children: React.ReactNode;
   className?: string;
+  urgencyCount?: number;
 }
 
-export function ParentShell({ title, breadcrumbs, children, className }: ParentShellProps) {
-  const { data: fees } = useChildrenFees();
-  const unpaidFees = (fees || []).filter(f => f.status === 'pending');
-  const urgencyCount = unpaidFees.length;
+export function ParentShell({ title, breadcrumbs, children, className, urgencyCount = 0 }: ParentShellProps) {
 
   return (
     <div className={cn('flex flex-col gap-4 lg:gap-6 p-4 lg:p-6', className)}>
