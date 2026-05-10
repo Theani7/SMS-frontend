@@ -19,7 +19,7 @@ function ActionButton({ icon: Icon, label, onClick, className }: ActionButtonPro
       )}
     >
       <div className="h-8 w-8 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-indigo-100/50 dark:group-hover:bg-indigo-900/30 transition-colors">
-        <Icon className="h-[14px] w-[14px] text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
+        <Icon aria-hidden="true" className="h-[14px] w-[14px] text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
       </div>
       <span className="text-[12px] font-medium text-slate-700 dark:text-slate-300">
         {label}

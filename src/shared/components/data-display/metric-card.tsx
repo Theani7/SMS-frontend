@@ -32,7 +32,7 @@ export function MetricCard({ title, value, trend, description, className }: Metr
               "flex items-center gap-0.5 text-[10px] font-bold",
               trend.positive ? "text-emerald-600" : "text-red-600"
             )}>
-              {trend.positive ? <TrendingUp className="h-2.5 w-2.5" /> : <TrendingDown className="h-2.5 w-2.5" />}
+              {trend.positive ? <TrendingUp aria-hidden="true" className="h-2.5 w-2.5" /> : <TrendingDown aria-hidden="true" className="h-2.5 w-2.5" />}
               {trend.value}%
             </span>
           )}

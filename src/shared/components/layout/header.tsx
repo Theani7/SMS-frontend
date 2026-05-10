@@ -26,7 +26,7 @@ export function Header() {
           className="lg:hidden"
           aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
         >
-          <Menu className="h-5 w-5" />
+          <Menu aria-hidden="true" className="h-5 w-5" />
         </Button>
         <div className="hidden lg:flex items-center gap-3 text-sm tracking-tight">
           <div className="flex items-center gap-2 text-slate-500">
@@ -59,14 +59,14 @@ export function Header() {
             className="h-9 w-9"
           >
             {theme === 'light' ? (
-              <Moon className="h-[18px] w-[18px]" />
+              <Moon aria-hidden="true" className="h-[18px] w-[18px]" />
             ) : (
-              <Sun className="h-[18px] w-[18px]" />
+              <Sun aria-hidden="true" className="h-[18px] w-[18px]" />
             )}
           </Button>
 
           <Button variant="ghost" size="icon" className="h-9 w-9 relative">
-            <Bell className="h-[18px] w-[18px]" />
+            <Bell aria-hidden="true" className="h-[18px] w-[18px]" />
             <span className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-indigo-500 border-2 border-background" />
           </Button>
         </div>

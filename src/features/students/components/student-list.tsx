@@ -41,7 +41,7 @@ export function StudentList({ onAddNew }: StudentListProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-sm h-11 rounded-xl border border-slate-200 bg-white">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search students..."
             value={search}
@@ -56,13 +56,13 @@ export function StudentList({ onAddNew }: StudentListProps) {
               onClick={() => setSearch('')}
               aria-label="Clear search"
             >
-              <X className="h-4 w-4" />
+              <X aria-hidden="true" className="h-4 w-4" />
             </Button>
           )}
         </div>
         {onAddNew && (
           <Button onClick={onAddNew} className="h-11 px-5 rounded-xl shadow-button btn-lift gap-2">
-            <Plus className="h-4 w-4" />
+            <Plus aria-hidden="true" className="h-4 w-4" />
             Add Student
           </Button>
         )}

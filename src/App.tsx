@@ -6,6 +6,7 @@ import { AppRoutes } from './app/routes';
 import { AuthProvider } from './features/auth/components/auth-provider';
 import { ErrorBoundary } from './shared/components/error-boundary';
 import { useThemeStore } from './shared/store/theme-store';
+import { Toaster } from './shared/components/ui/toaster';
 
 export default function App() {
   const { theme } = useThemeStore();
@@ -22,6 +23,7 @@ export default function App() {
         <AuthProvider>
           <ErrorBoundary>
             <AppRoutes />
+            <Toaster />
           </ErrorBoundary>
         </AuthProvider>
       </BrowserRouter>
