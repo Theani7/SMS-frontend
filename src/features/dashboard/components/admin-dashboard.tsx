@@ -4,6 +4,7 @@ import { DollarSign, Activity } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../../shared/components/ui/card';
 import { formatDate } from '../../../shared/lib/utils';
 import { DashboardGrid } from '../../../shared/components/layout/dashboard-grid';
+import { AttendancePulse } from './attendance-pulse';
 
 export function AdminDashboard() {
   const { data: stats, isLoading } = useAdminStats();
@@ -81,6 +82,7 @@ export function AdminDashboard() {
           </Card>
         }
       >
+        <AttendancePulse />
         <Card className="border-slate-200 dark:border-slate-800 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-4">
             <div className="flex items-center gap-3">
