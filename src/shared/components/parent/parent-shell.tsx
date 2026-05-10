@@ -1,11 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Home, ChevronRight } from 'lucide-react';
 import { cn } from '../../lib/utils';
-
-export interface BreadcrumbItem {
-  label: string;
-  href: string;
-}
+import type { BreadcrumbItem } from '../../types/breadcrumb-item';
 
 interface ParentShellProps {
   title: string;
