@@ -1,80 +1,111 @@
-import { useParentStats } from '../hooks/use-dashboard-stats';
+import { useChildren } from '../../../features/children/hooks/use-children';
+import { useChildrenFees } from '../../../features/children/hooks/use-children-fees';
+import { useChildrenAttendance } from '../../../features/children/hooks/use-children-attendance';
+import { ParentShell } from '../../../shared/components/parent';
+import { ChildCard } from '../../../shared/components/parent';
 import { StatCard } from '../../../shared/components/data-display/stat-card';
-import { Users, DollarSign, ClipboardCheck } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../../shared/components/ui/card';
-import { Badge } from '../../../shared/components/ui/badge';
-import { cn } from '../../../shared/lib/utils';
+import { UrgencyStrip } from '../../../shared/components/student';
+import { DollarSign, ClipboardCheck, Users } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function ParentDashboard() {
-  const { data: stats, isLoading } = useParentStats();
+  const navigate = useNavigate();
+  const { data: children, isLoading } = useChildren();
+  const { data: fees } = useChildrenFees();
+  const { data: attendance } = useChildrenAttendance();
+
+  const enrichedChildren = (children || []).map(child => {
+    const childFees = (fees || []).filter(f => f.studentId === child.id);
+    const childAttendance = (attendance || []).filter(a => a.studentId === child.id);
+    return {
+      ...child,
+      hasOverdueFees: childFees.some(f => f.status === 'pending'),
+      hasRecentAbsence: childAttendance.some(a => a.status === 'absent'),
+    };
+  });
+
+  const totalPending = (fees || []).filter(f => f.status === 'pending').reduce((sum, f) => sum + f.amount, 0);
+  const absentToday = (attendance || []).filter(a => a.status === 'absent').length;
+
+  const urgencyItems = [
+    ...(fees || []).filter(f => f.status === 'pending').map(f => ({
+      id: f.id,
+      label: `Fee due for ${f.studentName}`,
+      urgency: 'high' as const,
+      href: '/fees',
+    })),
+    ...(attendance || []).filter(a => a.status === 'absent').map(a => ({
+      id: a.id,
+      label: `${a.studentName} absent today`,
+      urgency: 'info' as const,
+    })),
+  ].slice(0, 3);
 
   if (isLoading) {
-    return <div className="animate-pulse space-y-4">
-      <div className="grid gap-4 md:grid-cols-2">
-        {[...Array(2)].map((_, i) => (
-          <div key={i} className="h-32 bg-muted rounded-lg" />
-        ))}
-      </div>
-    </div>;
+    return (
+      <ParentShell title="Dashboard">
+        <div className="animate-pulse space-y-4">
+          <div className="h-16 bg-slate-100 dark:bg-slate-800 rounded-xl" />
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="h-32 bg-slate-100 dark:bg-slate-800 rounded-xl" />
+            <div className="h-32 bg-slate-100 dark:bg-slate-800 rounded-xl" />
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="h-16 bg-slate-100 dark:bg-slate-800 rounded-xl" />
+            <div className="h-16 bg-slate-100 dark:bg-slate-800 rounded-xl" />
+          </div>
+        </div>
+      </ParentShell>
+    );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2">
-        <StatCard
-          title="Children"
-          value={stats?.childrenCount || 0}
-          icon={Users}
-          description="Enrolled students"
-        />
-        <StatCard
-          title="Outstanding Balance"
-          value={`$${stats?.totalPendingFees || 0}`}
-          icon={DollarSign}
-          description="Pending payments"
-          trend={{ value: 0, positive: true }}
-        />
-      </div>
+    <ParentShell title="Dashboard" urgencyCount={urgencyItems.length}>
+      {urgencyItems.length > 0 && <UrgencyStrip items={urgencyItems} />}
+      <div className="space-y-6">
+        {/* Stats row */}
+        <div className="grid gap-4 md:grid-cols-2">
+          <StatCard
+            title="Total Pending"
+            value={`$${totalPending}`}
+            icon={DollarSign}
+            description="Outstanding fees"
+          />
+          <StatCard
+            title="Absent Today"
+            value={String(absentToday)}
+            icon={ClipboardCheck}
+            description="Children not in school"
+          />
+        </div>
 
-      <Card className="border-slate-200 dark:border-slate-800 shadow-sm">
-        <CardHeader className="pb-4">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center">
-              <ClipboardCheck className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
-            </div>
-            <div>
-              <CardTitle>Recent Attendance</CardTitle>
-              <CardDescription>Daily status tracking for your children</CardDescription>
-            </div>
+        {/* Children grid */}
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              Your Children
+            </h2>
+            <button
+              onClick={() => navigate('/children')}
+              className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
+            >
+              View all
+            </button>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {stats?.recentAttendance.map((att) => (
-              <div key={att.studentId} className="flex items-center justify-between p-4 border rounded-xl border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
-                <div className="flex items-center gap-3">
-                  <div className="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold">
-                    {att.studentName.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white leading-none">{att.studentName}</p>
-                    <p className="text-[11px] text-slate-500 font-medium">{att.date}</p>
-                  </div>
-                </div>
-                <Badge 
-                  variant={att.status === 'present' ? 'default' : 'destructive'}
-                  className={cn(
-                    "text-[10px] px-2 py-0 uppercase tracking-wider font-bold h-5",
-                    att.status === 'present' ? 'bg-emerald-500 hover:bg-emerald-600' : ''
-                  )}
-                >
-                  {att.status}
-                </Badge>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+          {enrichedChildren.length === 0 ? (
+            <div className="text-center py-8">
+              <Users className="h-8 w-8 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
+              <p className="text-[12px] text-slate-500 dark:text-slate-400">No children enrolled yet</p>
+            </div>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2">
+              {enrichedChildren.slice(0, 4).map(child => (
+                <ChildCard key={child.id} child={child} />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </ParentShell>
   );
 }
