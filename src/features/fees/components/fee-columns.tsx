@@ -17,38 +17,60 @@ interface FeeColumnsProps {
 export const feeColumns = ({ onDelete }: FeeColumnsProps): ColumnDef<Fee>[] => [
   {
     accessorKey: 'studentName',
-    header: 'Student Name',
+    header: () => (
+      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Student</span>
+    ),
   },
   {
     accessorKey: 'className',
-    header: 'Class',
+    header: () => (
+      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Class</span>
+    ),
   },
   {
     accessorKey: 'feeType',
-    header: 'Fee Type',
+    header: () => (
+      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Fee Type</span>
+    ),
+    cell: ({ row }) => (
+      <div className="space-y-0.5">
+        <p className="text-xs font-bold text-slate-900 dark:text-slate-100">{row.original.feeType}</p>
+        <p className="text-[10px] text-slate-500 font-medium">Academic Year 25/26</p>
+      </div>
+    )
   },
   {
     accessorKey: 'amount',
-    header: 'Amount',
-    cell: ({ row }) => formatCurrency(row.original.amount),
+    header: () => (
+      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Amount</span>
+    ),
+    cell: ({ row }) => <span className="text-xs font-black text-slate-900 dark:text-slate-100">{formatCurrency(row.original.amount)}</span>,
   },
   {
     accessorKey: 'dueDate',
-    header: 'Due Date',
-    cell: ({ row }) => formatDate(row.original.dueDate),
+    header: () => (
+      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Due Date</span>
+    ),
+    cell: ({ row }) => <span className="text-xs font-medium text-slate-500">{formatDate(row.original.dueDate)}</span>,
   },
   {
     accessorKey: 'status',
-    header: 'Status',
+    header: () => (
+      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Status</span>
+    ),
     cell: ({ row }) => {
       const status = row.original.status;
-      const colorMap: Record<string, string> = {
-        paid: 'bg-emerald-100 text-emerald-700 border-emerald-200',
-        pending: 'bg-amber-100 text-amber-700 border-amber-200',
-        overdue: 'bg-red-100 text-red-700 border-red-200',
-        waived: 'bg-blue-100 text-blue-700 border-blue-200',
+      const variants: Record<string, string> = {
+        paid: 'bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900/50',
+        pending: 'bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-950/30 dark:text-amber-400 dark:border-amber-900/50',
+        overdue: 'bg-rose-50 text-rose-600 border-rose-100 dark:bg-rose-950/30 dark:text-rose-400 dark:border-rose-900/50',
+        waived: 'bg-indigo-50 text-indigo-600 border-indigo-100 dark:bg-indigo-950/30 dark:text-indigo-400 dark:border-indigo-900/50',
       };
-      return <span className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent ${colorMap[status] || 'bg-gray-100 text-gray-700 border-gray-200'}`}>{status}</span>;
+      return (
+        <span className={`inline-flex items-center rounded-lg border px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest ${variants[status] || 'bg-slate-100 text-slate-700 border-slate-200'}`}>
+          {status}
+        </span>
+      );
     },
   },
   {
