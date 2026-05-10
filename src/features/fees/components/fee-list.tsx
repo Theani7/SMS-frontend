@@ -17,13 +17,21 @@ import { Search, X } from 'lucide-react';
 import { useDebounce } from '../../../shared/hooks/use-debounce';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteFee } from '../api';
+import type { Fee } from '../types/fee';
 
-export function FeeList() {
+interface FeeListProps {
+  fees?: Fee[];
+  groupByChild?: boolean;
+}
+
+export function FeeList({ fees: externalFees }: FeeListProps = {}) {
   const [search, setSearch] = useState('');
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const debouncedSearch = useDebounce(search, 300);
   const queryClient = useQueryClient();
-  const { data: fees, isLoading } = useFees(debouncedSearch);
+  const { data: internalFees, isLoading } = useFees(debouncedSearch);
+
+  const fees = externalFees ?? internalFees;
 
   const columns = useMemo(() => feeColumns({ onDelete: setDeleteId }), [setDeleteId]);
 

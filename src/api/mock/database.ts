@@ -31,8 +31,14 @@ interface MockFee {
   id: string;
   studentId: string;
   studentName: string;
+  className: string;
+  feeType: string;
   amount: number;
-  status: 'paid' | 'pending';
+  dueDate: string;
+  paidDate?: string;
+  status: 'paid' | 'pending' | 'overdue' | 'waived';
+  remarks?: string;
+  createdAt: string;
 }
 
 interface MockDatabase {
@@ -99,7 +105,8 @@ export const mockDb: MockDatabase = {
     { id: '3', studentId: '3', date: '2026-05-10', status: 'absent' },
   ],
   fees: [
-    { id: '1', studentId: '1', studentName: 'Emma Wilson', amount: 500, status: 'pending' },
-    { id: '2', studentId: '2', studentName: 'James Brown', amount: 500, status: 'paid' },
+    { id: '1', studentId: '1', studentName: 'Emma Wilson', className: 'Grade 10-A', feeType: 'Tuition Fee', amount: 500, dueDate: '2026-05-15', status: 'pending', createdAt: '2026-05-01' },
+    { id: '2', studentId: '2', studentName: 'James Brown', className: 'Grade 10-A', feeType: 'Tuition Fee', amount: 500, dueDate: '2026-05-15', status: 'paid', createdAt: '2026-05-01' },
+    { id: '3', studentId: '3', studentName: 'Olivia Davis', className: 'Grade 9-B', feeType: 'Examination Fee', amount: 200, dueDate: '2026-05-20', status: 'pending', createdAt: '2026-05-05' },
   ],
 };
