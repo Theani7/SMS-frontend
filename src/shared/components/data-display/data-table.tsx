@@ -45,19 +45,19 @@ export function DataTable<TData>({ columns, data, onRowClick }: DataTableProps<T
   });
 
   return (
-    <div className="relative rounded-xl border border-slate-100 bg-white shadow-soft overflow-hidden">
+    <div className="relative rounded-xl border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-950 shadow-soft overflow-hidden">
       {/* Gradient fade indicators on mobile to hint at horizontal scroll */}
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent lg:hidden" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white dark:from-slate-950 to-transparent lg:hidden" />
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="border-b border-slate-100 bg-gradient-to-r from-slate-50 to-slate-100/50">
+            <TableRow key={headerGroup.id} className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
               {headerGroup.headers.map((header) => {
                 const isSorted = header.column.getIsSorted();
                 return (
                   <TableHead
                     key={header.id}
-                    className="text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                    className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider"
                     aria-sort={
                       isSorted === 'asc'
                         ? 'ascending'
