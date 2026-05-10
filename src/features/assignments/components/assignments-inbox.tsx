@@ -13,7 +13,7 @@ import {
 } from '../../../shared/components/ui/dropdown-menu';
 
 export function AssignmentsInbox() {
-  const { data: assignments, isLoading, submitAssignment } = useAssignments();
+  const { data: assignments, isLoading, isError, submitAssignment } = useAssignments();
   const [activeTab, setActiveTab] = useState<AssignmentStatus>('todo');
   const [selectedSubject, setSelectedSubject] = useState<string>('all');
   const [submittingId, setSubmittingId] = useState<string | null>(null);
@@ -51,6 +51,22 @@ export function AssignmentsInbox() {
         <div key={i} className="h-16 bg-slate-100 dark:bg-slate-800 rounded-xl" />
       ))}
     </div>;
+  }
+
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <p className="text-sm text-slate-500 dark:text-slate-400">Something went wrong loading your assignments.</p>
+      </div>
+    );
+  }
+
+  if (filteredAssignments.length === 0) {
+    return (
+      <div className="text-center py-16">
+        <p className="text-sm text-slate-500 dark:text-slate-400">No assignments yet — enjoy the calm.</p>
+      </div>
+    );
   }
 
   return (
