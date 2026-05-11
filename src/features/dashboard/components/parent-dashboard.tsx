@@ -29,13 +29,13 @@ export function ParentDashboard() {
 
   const urgencyItems = [
     ...(fees || []).filter(f => f.status === 'pending').map(f => ({
-      id: f.id,
+      id: `fee-${f.id}`,
       label: `Fee due for ${f.studentName}`,
       urgency: 'high' as const,
       href: '/fees',
     })),
     ...(attendance || []).filter(a => a.status === 'absent').map(a => ({
-      id: a.id,
+      id: `attendance-${a.id}`,
       label: `${a.studentName} absent today`,
       urgency: 'info' as const,
     })),
